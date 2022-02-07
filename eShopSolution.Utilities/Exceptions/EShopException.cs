@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace eShopSolution.Utilities
+namespace eShopSolution.Utilities.Exceptions
 {
     public class EShopException : Exception
     {
         public EShopException()
         {
-            
+
         }
 
         public EShopException(string message)

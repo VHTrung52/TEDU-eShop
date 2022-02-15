@@ -40,12 +40,7 @@ namespace eShopSolution.Data.EF
 
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppRoleClaims");
-            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(
-                x => new
-                {
-                    x.UserId,
-                    x.RoleId
-                });
+            modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new{x.UserId, x.RoleId});
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins");
@@ -78,5 +73,7 @@ namespace eShopSolution.Data.EF
 
 
         public DbSet<Transaction> Transactions { get; set; }
+
+        public DbSet<ProductImage> ProductImages { get; set; }
     }
 }

@@ -9,5 +9,7 @@ namespace eShopSolution.AdminApp.Sevices
         Task<string> Authenticate(LoginRequest request);
 
         Task<PagedResult<UserViewModel>> GetUserPaging(GetUserPagingRequest request);
+
+        Task<bool> RegiterUser(RegisterRequest request);
     }
 }

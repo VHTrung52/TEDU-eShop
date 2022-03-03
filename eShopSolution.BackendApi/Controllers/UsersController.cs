@@ -54,8 +54,8 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
-            var products = await _userService.GetUsersPaging(request);
-            return Ok(products);
+            var response = await _userService.GetUsersPaging(request);
+            return Ok(response);
         }
     }
 }

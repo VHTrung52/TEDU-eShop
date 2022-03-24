@@ -44,6 +44,20 @@ namespace eShopSolution.AdminApp.Sevices
             return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
         }
 
+        public async Task<ApiResult<bool>> Delete(Guid id)
+        {
+            var client = CreateNewHttpClient();
+
+            var response = await client.DeleteAsync($"/api/users/{id}");
+
+            var data = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(data);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(data);
+        }
+
         public async Task<ApiResult<UserViewModel>> GetById(Guid id)
         {
             var client = CreateNewHttpClient();
@@ -51,11 +65,10 @@ namespace eShopSolution.AdminApp.Sevices
             var response = await client.GetAsync($"/api/users/" + id);
 
             var data = await response.Content.ReadAsStringAsync();
+
             if (response.IsSuccessStatusCode)
-            {
-                var user = JsonConvert.DeserializeObject<ApiSuccessResult<UserViewModel>>(data);
-                return user;
-            }
+                JsonConvert.DeserializeObject<ApiSuccessResult<UserViewModel>>(data);
+
             return JsonConvert.DeserializeObject<ApiErrorResult<UserViewModel>>(data);
         }
 

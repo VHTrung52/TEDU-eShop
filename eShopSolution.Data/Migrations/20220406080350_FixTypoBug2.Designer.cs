@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eShopSolution.Data.EF;
 
 namespace eShopSolution.Data.Migrations
 {
     [DbContext(typeof(EShopDbContext))]
-    partial class EShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220406080350_FixTypoBug2")]
+    partial class FixTypoBug2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -96,22 +98,22 @@ namespace eShopSolution.Data.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = new Guid("7c6187f4-1973-4ece-aa42-f298219bb27d"),
+                            UserId = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
                         },
                         new
                         {
-                            UserId = new Guid("a2dea42f-162e-4ce9-a2d2-f3bfb44af01d"),
+                            UserId = new Guid("76d96e6e-2cb1-4f95-a107-91a9f41a64ff"),
                             RoleId = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc")
                         },
                         new
                         {
-                            UserId = new Guid("5f5d0f29-f012-411a-970e-97835c440947"),
+                            UserId = new Guid("e6b7cca7-ca41-4d60-a85a-cc54aab13979"),
                             RoleId = new Guid("44ca662a-68e3-410d-85db-72c4e70e2d48")
                         },
                         new
                         {
-                            UserId = new Guid("7c0e9767-4655-4df7-940d-fdc462607d46"),
+                            UserId = new Guid("57c3a06d-c045-4630-9a38-ba4187d327c5"),
                             RoleId = new Guid("44ca662a-68e3-410d-85db-72c4e70e2d48")
                         });
                 });
@@ -195,7 +197,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "c0394bed-928f-4ec7-adf9-28956362e52e",
+                            ConcurrencyStamp = "2e7b5809-02d3-40cd-b06c-e3e00febf93a",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -203,7 +205,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("44ca662a-68e3-410d-85db-72c4e70e2d48"),
-                            ConcurrencyStamp = "555d11e7-3f6b-44b9-bbc0-3261a3f60596",
+                            ConcurrencyStamp = "c24f55e6-416b-4ec7-b96b-af70801bcd00",
                             Description = "User role",
                             Name = "user",
                             NormalizedName = "user"
@@ -278,9 +280,9 @@ namespace eShopSolution.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7c6187f4-1973-4ece-aa42-f298219bb27d"),
+                            Id = new Guid("69bd714f-9576-45ba-b5b7-f00649be00de"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2ec6e86f-59ce-4a26-9685-62874f1d0fa8",
+                            ConcurrencyStamp = "e4fe1acf-1617-482c-8f85-65e31952d4c3",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -289,18 +291,17 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "admin1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEADs1WvJmKW7p+beoAvDOJBcnA+qTl0WxhASXmwkeUbMUDrUFu/7rSW0msHBHIA7dw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHgXZq4QzOtyuMjSYedk/tVKMNNcHb2SJGGV3ZSNrj8054IYtgBVJ2O0l7rA36WJOQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin1"
                         },
                         new
                         {
-                            Id = new Guid("a2dea42f-162e-4ce9-a2d2-f3bfb44af01d"),
+                            Id = new Guid("76d96e6e-2cb1-4f95-a107-91a9f41a64ff"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2236fb69-93f4-49b8-a1a1-9bd9b4cdbf77",
+                            ConcurrencyStamp = "83ecb938-94d9-488a-80b7-dcd495eca011",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vhtrung52@gmail.com",
                             EmailConfirmed = true,
@@ -309,18 +310,17 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "vhtrung52@gmail.com",
                             NormalizedUserName = "admin2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPlrq+Sg3Ev35Wk3Upyx2VzjJIwjj8BQL5zCz0yuEjomNdjfmS4M2E6oURz3OQOHUA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBOpj0vIavBkowQKOU6sTp9wM9eugmHQWPTupgREsBx0qx6MsyYDYy6SY7JB/GMF3g==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "admin2"
                         },
                         new
                         {
-                            Id = new Guid("5f5d0f29-f012-411a-970e-97835c440947"),
+                            Id = new Guid("e6b7cca7-ca41-4d60-a85a-cc54aab13979"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5443dba-fcbe-4447-9b25-3d28453fc343",
+                            ConcurrencyStamp = "1d3f5354-c059-47a2-a130-dc3aa36d4b56",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -329,18 +329,17 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "user1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEP0IK3MhuD92J4QSa3TVKvedhNYjzw8puV/1iLnLMEHoXFCEmMFAkYRX7jBpydZ15Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF/M0fUGLT5fEqMqRmggXhy3MliHr8ot7Viu85Mj188EhfD21ujejNoJemuNRQuWwQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "user1"
                         },
                         new
                         {
-                            Id = new Guid("7c0e9767-4655-4df7-940d-fdc462607d46"),
+                            Id = new Guid("57c3a06d-c045-4630-9a38-ba4187d327c5"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "31fe60d9-d3bf-4738-8771-10c364225dda",
+                            ConcurrencyStamp = "7a84afd4-72b2-45fa-83f6-5431e5cd9d05",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vhtrung52@gmail.com",
                             EmailConfirmed = true,
@@ -349,10 +348,9 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "vhtrung52@gmail.com",
                             NormalizedUserName = "user2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDBfA2sAIEi9USSJJ55ugfeLmU8hW5MqRPpTCASEF1DStHK3Ba6ItdQKaXvItSMmqQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECtszVJoGfXJhbbMT7Tz1NzHzy2SZFNkQsbdtArxGiJvmaY28Zscoh6DSyADqKMQsg==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "",
                             TwoFactorEnabled = false,
                             UserName = "user2"
                         });
@@ -695,10 +693,10 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 4, 7, 13, 39, 1, 889, DateTimeKind.Local).AddTicks(5832),
+                            DateCreated = new DateTime(2022, 4, 6, 15, 3, 49, 865, DateTimeKind.Local).AddTicks(3203),
                             OriginalPrice = 100000m,
                             Price = 200000m,
-                            Stock = 10,
+                            Stock = 0,
                             ViewCount = 0
                         });
                 });

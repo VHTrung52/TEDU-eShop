@@ -1,0 +1,125 @@
+1
+
+2	- Branch: feature/02_create_solution_struture
+	- Lesson:
+	- New: 
+	- Bug: 
+
+3	- Branch: feature/03_database_design
+	- Lesson:
+	- New: 
+	- Bug: 
+
+4	- Branch: feature/03_database_design_01
+	- Lesson:
+	- New: 
+	- Bug: 
+
+5	- Branch: feature/04_data_seeding
+	- Lesson:
+	- New: data seeding, update-database, add-migration <Migration_name>
+	- Bug: 
+
+6	- Branch: feature/05_aspnetcore_identity_database
+	- Lesson:
+	- New: 
+	- Bug: 
+
+7	- Branch: feature/06_application_layer
+	- Lesson:
+	- New: 
+	- Bug: 
+
+8	- Branch: feature/06_application_layer_01_manage_image
+	- Lesson:
+	- New: 
+	- Bug: 
+
+9	- Branch: feature/06_application_layer_02_create_web_api
+	- Lesson:
+	- New: 
+	- Bug: 
+
+10	Branch: feature/06_application_layer_03_add_swagger
+	- Lesson:
+	- New: 
+	- Bug: 
+
+11	- Branch: feature/08_product_api
+	- Lesson:
+	- New: 
+	- Bug: 
+
+12	- Branch: feature/08_login_jwt
+	- Lesson:
+	- New: 
+	- Bug: 
+
+13	- Branch: feature/08_login_jwt_01_add_authorization_header
+	- Lesson:
+	- New: 
+	- Bug: 
+
+14	- Branch: feature/09_fluent_validation
+	- Lesson:
+	- New: 
+	- Bug: 
+
+15	- Branch: feature/10_admin_app
+	- Lesson:
+	- New: 
+	- Bug: 
+
+16	- Branch: feature/11_login_page_and_api
+	- Lesson:
+	- New: 
+	- Bug: 
+
+17	- Branch: feature/12_cookie_auth_without_identity
+	- Lesson:
+	- New: 
+	- Bug: 
+
+18	- Branch: feature/13_get_user_list_and_token
+	- Lesson:
+	- New: 
+	- Bug: 
+
+19	- Branch: feature/14_create_new_user
+	- Lesson:
+	- New: 
+	- Bug: 
+
+20	- Branch: feature/15_update_user
+	- Lesson:
+	- New: 
+	- Bug: 
+
+21	- Branch: feature/16_user_paging_user_detail
+	- Lesson:
+	- New: 
+	- Bug: 
+
+22	- Branch: feature/17_delete_user
+	- Lesson:
+	- New: 
+	- Bug: 
+
+23	- Branch: feature/18_user_filtering
+	- Lesson:
+	- New: 
+	- Bug: 
+
+24	- Branch: feature/19_tempdata_message
+	- Lesson: #33
+	- New: 
+	- Bug: 
+
+25	- Branch: feature/20_assign_role_to_user
+	- Lesson: #34
+	- New: Add and remove role of user, add new data to seed
+	- Bug: in EF 3.1.1 the hasdata update the data by determine which line of code is editted, not by id so there can be duplicate data when migration
+	- Ex, use the same id for 1 user but change the varible name from userid = x and id = userid to userid1 = x and id = userid1
+	- EF add the same user into database make the data duplicate, solution in EF 4.3 there is AddOrUpdate
+	- 
+	

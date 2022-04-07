@@ -12,6 +12,7 @@ namespace eShopSolution.Data.Extensions
     {
         public static void Seed(this ModelBuilder modelBuilder)
         {
+            // seeding data
             modelBuilder.Entity<AppConfig>().HasData(
                 new AppConfig()
                 {
@@ -114,7 +115,7 @@ namespace eShopSolution.Data.Extensions
                     DateCreated = DateTime.Now,
                     OriginalPrice = 100000,
                     Price = 200000,
-                    Stock = 0,
+                    Stock = 10,
                     ViewCount = 0,
                 }
                 );
@@ -151,40 +152,119 @@ namespace eShopSolution.Data.Extensions
                 {
                     ProductId = 1,
                     CategoryId = 1,
+                });
+
+            var roleId1 = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
+            var roleId2 = new Guid("44CA662A-68E3-410D-85DB-72C4E70E2D48");
+
+            modelBuilder.Entity<AppRole>().HasData(
+                new AppRole
+                {
+                    Id = roleId1,
+                    Name = "admin",
+                    NormalizedName = "admin",
+                    Description = "Administrator role"
+                },
+                new AppRole
+                {
+                    Id = roleId2,
+                    Name = "user",
+                    NormalizedName = "user",
+                    Description = "User role"
+                });
+
+            var hasher = new PasswordHasher<AppUser>();
+
+            var userId1 = new Guid("7C6187F4-1973-4ECE-AA42-F298219BB27D");
+            var userId2 = new Guid("A2DEA42F-162E-4CE9-A2D2-F3BFB44AF01D");
+            var userId3 = new Guid("5F5D0F29-F012-411A-970E-97835C440947");
+            var userId4 = new Guid("7C0E9767-4655-4DF7-940D-FDC462607D46");
+
+            modelBuilder.Entity<AppUser>().HasData(
+                new AppUser
+                {
+                    Id = userId1,
+                    UserName = "admin1",
+                    NormalizedUserName = "admin1",
+                    Email = "tedu.international@gmail.com",
+                    NormalizedEmail = "tedu.international@gmail.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
+                    PhoneNumber = 1234567890.ToString(),
+                    SecurityStamp = String.Empty,
+                    FirstName = "Toan",
+                    LastName = "Bach",
+                    Dob = new DateTime(2020, 01, 31)
+                },
+                new AppUser
+                {
+                    Id = userId2,
+                    UserName = "admin2",
+                    NormalizedUserName = "admin2",
+                    Email = "vhtrung52@gmail.com",
+                    NormalizedEmail = "vhtrung52@gmail.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Admin@123"),
+                    PhoneNumber = 1234567890.ToString(),
+                    SecurityStamp = String.Empty,
+                    FirstName = "Hoang",
+                    LastName = "Trung",
+                    Dob = new DateTime(2020, 01, 31)
+                },
+                new AppUser
+                {
+                    Id = userId3,
+                    UserName = "user1",
+                    NormalizedUserName = "user1",
+                    Email = "tedu.international@gmail.com",
+                    NormalizedEmail = "tedu.international@gmail.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
+                    PhoneNumber = 1234567890.ToString(),
+                    SecurityStamp = String.Empty,
+                    FirstName = "Toan",
+                    LastName = "Bach",
+                    Dob = new DateTime(2020, 01, 31)
+                },
+                new AppUser
+                {
+                    Id = userId4,
+                    UserName = "user2",
+                    NormalizedUserName = "user2",
+                    Email = "vhtrung52@gmail.com",
+                    NormalizedEmail = "vhtrung52@gmail.com",
+                    EmailConfirmed = true,
+                    PasswordHash = hasher.HashPassword(null, "Admin@123"),
+                    PhoneNumber = 1234567890.ToString(),
+                    SecurityStamp = String.Empty,
+                    FirstName = "Hoang",
+                    LastName = "Trung",
+                    Dob = new DateTime(2020, 01, 31)
                 }
                 );
 
-            var roleId = new Guid("8D04DCE2-969A-435D-BBA4-DF3F325983DC");
-            var adminId = new Guid("69BD714F-9576-45BA-B5B7-F00649BE00DE");
-            modelBuilder.Entity<AppRole>().HasData(new AppRole
-            {
-                Id = roleId,
-                Name = "admin",
-                NormalizedName = "admin",
-                Description = "Administrator role"
-            });
-
-            var hasher = new PasswordHasher<AppUser>();
-            modelBuilder.Entity<AppUser>().HasData(new AppUser
-            {
-                Id = adminId,
-                UserName = "admin",
-                NormalizedUserName = "admin",
-                Email = "tedu.international@gmail.com",
-                NormalizedEmail = "tedu.international@gmail.com",
-                EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "Abcd1234$"),
-                SecurityStamp = string.Empty,
-                FirstName = "Toan",
-                LastName = "Bach",
-                Dob = new DateTime(2020, 01, 31)
-            });
-
-            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(new IdentityUserRole<Guid>
-            {
-                RoleId = roleId,
-                UserId = adminId
-            });
+            modelBuilder.Entity<IdentityUserRole<Guid>>().HasData(
+                new IdentityUserRole<Guid>
+                {
+                    RoleId = roleId1,
+                    UserId = userId1
+                },
+                new IdentityUserRole<Guid>
+                {
+                    RoleId = roleId1,
+                    UserId = userId2
+                },
+                new IdentityUserRole<Guid>
+                {
+                    RoleId = roleId2,
+                    UserId = userId3
+                },
+                new IdentityUserRole<Guid>
+                {
+                    RoleId = roleId2,
+                    UserId = userId4
+                }
+                );
         }
     }
 }

@@ -20,17 +20,17 @@ namespace eShopSolution.Application.System.Users
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
-        private readonly IConfiguration _config;
+        private readonly IConfiguration _configuration;
 
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
-            IConfiguration config)
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
-            _config = config;
+            _configuration = configuration;
         }
 
         public async Task<ApiResult<string>> Authenticate(LoginRequest request)
@@ -53,11 +53,11 @@ namespace eShopSolution.Application.System.Users
                 new Claim(ClaimTypes.Name, request.UserName),
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_config["Tokens:Issuer"],
-              _config["Tokens:Issuer"],
+            var token = new JwtSecurityToken(_configuration["Tokens:Issuer"],
+              _configuration["Tokens:Issuer"],
               claims,
               expires: DateTime.Now.AddHours(3),
               signingCredentials: creds);

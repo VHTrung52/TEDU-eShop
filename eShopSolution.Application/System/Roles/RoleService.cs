@@ -1,4 +1,5 @@
 ﻿using eShopSolution.Data.Entities;
+using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.System.Roles;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +20,7 @@ namespace eShopSolution.Application.System.Roles
             _roleManager = roleManager;
         }
 
-        public async Task<List<RoleViewModel>> GetAll()
+        public async Task<ApiResult<List<RoleViewModel>>> GetAll()
         {
             var roles = await _roleManager.Roles.Select(x => new RoleViewModel()
             {
@@ -28,7 +29,7 @@ namespace eShopSolution.Application.System.Roles
                 Description = x.Description,
             }).ToListAsync();
 
-            return roles;
+            return new ApiSuccessResult<List<RoleViewModel>>(roles);
         }
     }
 }

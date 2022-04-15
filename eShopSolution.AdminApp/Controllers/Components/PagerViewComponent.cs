@@ -6,9 +6,9 @@ namespace eShopSolution.AdminApp.Controllers.Components
 {
     public class PagerViewComponent : ViewComponent
     {
-        public Task<IViewComponentResult> InvokeAsync(PagedResultBase result)
+        public Task<IViewComponentResult> InvokeAsync()
         {
-            return Task.FromResult((IViewComponentResult)View("Default", result));
+            return Task.FromResult((IViewComponentResult)View("Default"));
         }
     }
 }

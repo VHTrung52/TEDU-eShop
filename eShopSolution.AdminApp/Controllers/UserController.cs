@@ -32,20 +32,20 @@ namespace eShopSolution.AdminApp.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
-            var data = await _userApiClient.GetUsersPagings(request);
+            var response = await _userApiClient.GetUsersPagings(request);
             ViewBag.KeyWord = keyWord;
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
-            return View(data.ResultObj);
+            return View(response.ResultObj);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var result = await _userApiClient.GetById(id);
-            return View(result.ResultObj);
+            var response = await _userApiClient.GetUserById(id);
+            return View(response.ResultObj);
         }
 
         [HttpGet]
@@ -59,24 +59,25 @@ namespace eShopSolution.AdminApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            var result = await _userApiClient.RegiterUser(request);
-            if (result.IsSuccessed)
+
+            var response = await _userApiClient.RegiterUser(request);
+            if (response.IsSuccessed)
             {
-                TempData["result"] = "Thêm mới người dùng thành công";
+                TempData["result"] = response.Message;
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);
+            ModelState.AddModelError("", response.Message);
             return View(request);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var result = await _userApiClient.GetById(id);
-            if (result.IsSuccessed)
+            var response = await _userApiClient.GetUserById(id);
+            if (response.IsSuccessed)
             {
-                var user = result.ResultObj;
+                var user = response.ResultObj;
                 var userUpdateRequest = new UserUpdateRequest()
                 {
                     Dob = user.Dob,
@@ -96,15 +97,16 @@ namespace eShopSolution.AdminApp.Controllers
         {
             if (!ModelState.IsValid)
                 return View();
-            var result = await _userApiClient.UpdateUser(request.Id, request);
-            if (result.IsSuccessed)
+
+            var response = await _userApiClient.UpdateUser(request.Id, request);
+            if (response.IsSuccessed)
             {
-                TempData["result"] = "Cập nhật người dùng thành công";
+                TempData["result"] = response.Message;
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);
-            return View(request);
+            ModelState.AddModelError("", response.Message);
+            return View(response);
         }
 
         [HttpPost]
@@ -130,22 +132,22 @@ namespace eShopSolution.AdminApp.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _userApiClient.Delete(request.Id);
-            if (result.IsSuccessed)
+            var response = await _userApiClient.DeleteUser(request.Id);
+            if (response.IsSuccessed)
             {
-                TempData["result"] = "Xoá người dùng thành công";
+                TempData["result"] = response.Message;
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);
+            ModelState.AddModelError("", response.Message);
             return View(request);
         }
 
         [HttpGet]
         public async Task<IActionResult> RoleAssign(Guid id)
         {
-            var roleAssignRequest = await GetRoleAssignRequest(id);
-            return View(roleAssignRequest);
+            var response = await GetRoleAssignRequest(id);
+            return View(response);
         }
 
         [HttpPost]
@@ -154,31 +156,31 @@ namespace eShopSolution.AdminApp.Controllers
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _userApiClient.RoleAssign(request.Id, request);
-            if (result.IsSuccessed)
+            var response = await _userApiClient.RoleAssign(request.Id, request);
+            if (response.IsSuccessed)
             {
-                TempData["result"] = "Cập nhật quyền thành công";
+                TempData["result"] = response.Message;
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);
+            ModelState.AddModelError("", response.Message);
             var roleAssignRequest = await GetRoleAssignRequest(request.Id);
             return View(request);
         }
 
         private async Task<RoleAssignRequest> GetRoleAssignRequest(Guid id)
         {
-            var userApiResult = await _userApiClient.GetById(id);
-            var roleApiResult = await _roleApiClient.GetAll();
+            var userApiResponse = await _userApiClient.GetUserById(id);
+            var roleApiResponse = await _roleApiClient.GetAll();
 
             var roleAssignRequest = new RoleAssignRequest();
-            foreach (var role in roleApiResult.ResultObj)
+            foreach (var role in roleApiResponse.ResultObj)
             {
                 roleAssignRequest.Roles.Add(new SelectItem()
                 {
                     Id = role.Id.ToString(),
                     Name = role.Name,
-                    IsSelected = userApiResult.ResultObj.Roles.Contains(role.Name)
+                    IsSelected = userApiResponse.ResultObj.Roles.Contains(role.Name)
                 });
             }
             return roleAssignRequest;

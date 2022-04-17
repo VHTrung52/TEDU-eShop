@@ -56,32 +56,35 @@ namespace eShopSolution.Application.System.Users
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Tokens:Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityToken(_configuration["Tokens:Issuer"],
-              _configuration["Tokens:Issuer"],
-              claims,
-              expires: DateTime.Now.AddHours(3),
-              signingCredentials: creds);
-
-            return new ApiSuccessResult<string>(
-                new JwtSecurityTokenHandler().WriteToken(token)
+            var token = new JwtSecurityToken(
+                _configuration["Tokens:Issuer"],
+                _configuration["Tokens:Issuer"],
+                claims,
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: creds
                 );
+
+            return new ApiSuccessResult<string>(string.Empty, new JwtSecurityTokenHandler().WriteToken(token));
         }
 
-        public async Task<ApiResult<bool>> Delete(Guid id)
+        public async Task<ApiResult<bool>> DeleteUser(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
                 return new ApiErrorResult<bool>("Tài khoản không tồn tại");
             }
+
             var result = await _userManager.DeleteAsync(user);
             if (result.Succeeded)
-                return new ApiSuccessResult<bool>();
+            {
+                return new ApiSuccessResult<bool>("Xoá người dùng thành công");
+            }
 
-            return new ApiErrorResult<bool>("Xoá không thành công");
+            return new ApiErrorResult<bool>("Xoá người dùng không thành công");
         }
 
-        public async Task<ApiResult<UserViewModel>> GetById(Guid id)
+        public async Task<ApiResult<UserViewModel>> GetUserById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
@@ -103,7 +106,7 @@ namespace eShopSolution.Application.System.Users
             return new ApiSuccessResult<UserViewModel>(userViewModel);
         }
 
-        public async Task<ApiResult<PagedResult<UserViewModel>>> GetUsersPaging(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<UserViewModel>>> GetUserPaging(GetUserPagingRequest request)
         {
             //1. Select join
             var query = _userManager.Users;
@@ -111,8 +114,7 @@ namespace eShopSolution.Application.System.Users
             //2. filter
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                query = query.Where(x => x.UserName.Contains(request.Keyword)
-               || x.PhoneNumber.Contains(request.Keyword));
+                query = query.Where(x => x.UserName.Contains(request.Keyword) || x.PhoneNumber.Contains(request.Keyword));
             }
 
             //3. paging
@@ -168,20 +170,24 @@ namespace eShopSolution.Application.System.Users
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
-                return new ApiSuccessResult<bool>();
+                return new ApiSuccessResult<bool>("Thêm mới người dùng thành công");
             }
             return new ApiErrorResult<bool>("Đăng kí không thành công");
         }
 
-        public async Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request)
+        public async Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request)
         {
-            var isExisted = await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id);
-            if (isExisted)
+            var isEmailExisted = await _userManager.Users.AnyAsync(x => x.Email == request.Email && x.Id != id);
+            if (isEmailExisted)
             {
                 return new ApiErrorResult<bool>("Email đã tồn tại");
             }
 
             var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản không tồn tại");
+            }
 
             user.Dob = request.Dob;
             user.Email = request.Email;
@@ -192,7 +198,7 @@ namespace eShopSolution.Application.System.Users
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
-                return new ApiSuccessResult<bool>();
+                return new ApiSuccessResult<bool>("Cập nhật người dùng thành công");
             }
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
@@ -223,7 +229,7 @@ namespace eShopSolution.Application.System.Users
                 }
             }
 
-            return new ApiSuccessResult<bool>();
+            return new ApiSuccessResult<bool>("Cập nhật quyền thành công");
         }
     }
 }

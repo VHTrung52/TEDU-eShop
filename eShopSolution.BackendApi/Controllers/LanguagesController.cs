@@ -20,8 +20,8 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetAll()
         {
-            var result = await _languageService.GetAll();
-            return Ok(result);
+            var response = await _languageService.GetAll();
+            return Ok(response);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using eShopSolution.ViewModels.Common;
+﻿using eShopSolution.Utilities.Constants;
+using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -22,28 +23,15 @@ namespace eShopSolution.AdminApp.Sevices
 
         public async Task<ApiResult<string>> Authenticate(LoginRequest request)
         {
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync("/api/users/authenticate", httpContent);
-
-            if (response.IsSuccessStatusCode)
-            {
-                var result = JsonConvert.DeserializeObject<ApiSuccessResult<string>>(await response.Content.ReadAsStringAsync());
-            }
-
-            return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
+            return await PostWithoutTokenAsync<ApiResult<string>, LoginRequest>("/api/users/authenticate", request);
         }
 
-        public async Task<ApiResult<bool>> Delete(Guid id)
+        public async Task<ApiResult<bool>> DeleteUser(Guid id)
         {
             return await DeleteAsync<ApiResult<bool>>($"/api/users/{id}");
         }
 
-        public async Task<ApiResult<UserViewModel>> GetById(Guid id)
+        public async Task<ApiResult<UserViewModel>> GetUserById(Guid id)
         {
             return await GetAsync<ApiResult<UserViewModel>>($"/api/users/{id}");
         }
@@ -59,21 +47,7 @@ namespace eShopSolution.AdminApp.Sevices
 
         public async Task<ApiResult<bool>> RegiterUser(RegisterRequest request)
         {
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync($"/api/users/register", httpContent);
-
-            var result = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
-            }
-
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+            return await PostWithoutTokenAsync<ApiResult<bool>, RegisterRequest>("/api/users/register", request);
         }
 
         public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)

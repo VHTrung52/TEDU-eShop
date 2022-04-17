@@ -12,32 +12,32 @@ namespace eShopSolution.Application.Catalog.Products
 {
     public interface IProductService
     {
-        Task<int> Create(ProductCreateRequest request);
+        Task<int> CreateProduct(ProductCreateRequest request);
 
-        Task<int> Update(ProductUpdateRequest request);
+        Task<int> UpdateProduct(ProductUpdateRequest request);
 
-        Task<int> Delete(int productId);
+        Task<ApiResult<int>> DeleteProduct(int productId);
 
-        Task<bool> UpdatePrice(int productId, decimal newPrice);
+        Task<bool> UpdateProductPrice(int productId, decimal newPrice);
 
-        Task<bool> UpdateStock(int productId, int addedQuantity);
+        Task<bool> UpdateProductStock(int productId, int addedQuantity);
 
-        Task AddViewCount(int productId);
+        Task AddProductViewCount(int productId);
 
-        Task<PagedResult<ProductViewModel>> GetAllPaging(GetManageProductPagingRequest request);
+        Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPaging(GetManageProductPagingRequest request);
 
-        Task<ProductViewModel> GetById(int productId, string languageId);
+        Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId);
 
-        Task<int> AddImage(int productId, ProductImageCreateRequest request);
+        Task<int> AddProductImage(int productId, ProductImageCreateRequest request);
 
-        Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
+        Task<int> UpdateProductImage(int imageId, ProductImageUpdateRequest request);
 
-        Task<int> RemoveImage(int imageId);
+        Task<int> DeleteImage(int imageId);
 
-        Task<List<ProductImageViewModel>> GetListImage(int productId);
+        Task<List<ProductImageViewModel>> GetProductImage(int productId);
 
-        Task<ProductImageViewModel> GetImageById(int imageId);
+        Task<ApiResult<ProductImageViewModel>> GetImageById(int imageId);
 
-        Task<PagedResult<ProductViewModel>> GetAllByCategoryId(string languageId, GetPublicProductPagingRequest request);
+        Task<PagedResult<ProductViewModel>> GetProductByCategoryId(string languageId, GetPublicProductPagingRequest request);
     }
 }

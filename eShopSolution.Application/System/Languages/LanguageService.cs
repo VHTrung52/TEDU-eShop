@@ -13,12 +13,10 @@ namespace eShopSolution.Application.System.Languages
 {
     public class LanguageService : ILanguageService
     {
-        private readonly IConfiguration _configuration;
         private readonly EShopDbContext _dbContext;
 
-        public LanguageService(EShopDbContext dbContext, IConfiguration configuration)
+        public LanguageService(EShopDbContext dbContext)
         {
-            _configuration = configuration;
             _dbContext = dbContext;
         }
 
@@ -29,6 +27,7 @@ namespace eShopSolution.Application.System.Languages
                 Id = x.Id,
                 Name = x.Name
             }).ToListAsync();
+
             return new ApiSuccessResult<List<LanguageViewModel>>(languages);
         }
     }

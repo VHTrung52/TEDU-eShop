@@ -19,11 +19,11 @@ namespace eShopSolution.AdminApp.Controllers.Components
 
         public async Task<IViewComponentResult> InvokeAsync(PagedResultBase result)
         {
-            var languages = await _languageApiClient.GetAll();
+            var response = await _languageApiClient.GetAll();
             var navigationViewModel = new NavigationViewModel()
             {
                 CurrentLanguageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId),
-                Languages = languages.ResultObj
+                Languages = response.ResultObj
             };
 
             return View("Default", navigationViewModel);

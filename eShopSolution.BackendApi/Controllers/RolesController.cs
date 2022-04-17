@@ -23,8 +23,8 @@ namespace eShopSolution.BackendApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> GetAll()
         {
-            var roles = await _roleService.GetAll();
-            return Ok(roles);
+            var response = await _roleService.GetAll();
+            return Ok(response);
         }
     }
 }

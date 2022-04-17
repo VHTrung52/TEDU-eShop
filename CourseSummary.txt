@@ -153,8 +153,16 @@
 26	- Branch: feature/21_setting_language
 	- Course Branch: feature/35_setting_language
 	- Course Lesson: #35
-	- New: Add language setting, use view component for loading language setting, create base api client and refactor other api, 
+	- New: Add language setting bar, use view component for loading language setting bar, create base api client and refactor other api, 
 		generic reponse and parameter, ex, protected async Task<TResponse> PutAsync<TResponse, TInput>(string url, TInput request)
+	- Bug: missing try catch, use api result not consistant
+
+27	- Branch: feature/22_product_list
+	- Course Branch: feature/36_product_list
+	- Course Lesson: #36
+	- New: refactor UserApiClient, add ProductController in AdminApp, add custom alert css alert-customsuccess, refactor ProductService
+		Flow: add service in Application -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
+			add service in AdminApp -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
 	- Bug: 
 
 	

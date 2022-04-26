@@ -147,22 +147,31 @@
 	- Course Lesson: #34
 	- New: Add and remove role of user, add new data to seed
 	- Bug: in EF 3.1.1 the hasdata update the data by determine which line of code is editted, not by id so there can be duplicate data when migration
-		Ex, use the same id for 1 user but change the varible name from userid = x and id = userid to userid1 = x and id = userid1
+		ex, use the same id for 1 user but change the varible name from userid = x and id = userid to userid1 = x and id = userid1
 		EF add the same user into database make the data duplicate, solution in EF 4.3 there is AddOrUpdate
 
 26	- Branch: feature/21_setting_language
 	- Course Branch: feature/35_setting_language
 	- Course Lesson: #35
-	- New: Add language setting bar, use view component for loading language setting bar, create base api client and refactor other api, 
+	- New: add language setting bar, use view component for loading language setting bar, create base api client and refactor other api, 
 		generic reponse and parameter, ex, protected async Task<TResponse> PutAsync<TResponse, TInput>(string url, TInput request)
-	- Bug: missing try catch, use api result not consistant
+	- Bug: missing try catch ?, use api result not consistant ?
 
 27	- Branch: feature/22_product_list
 	- Course Branch: feature/36_product_list
 	- Course Lesson: #36
 	- New: refactor UserApiClient, add ProductController in AdminApp, add custom alert css alert-customsuccess, refactor ProductService
-		Flow: add service in Application -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
+		flow: add service in Application -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
 			add service in AdminApp -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
 	- Bug: 
+
+28	- Branch: feature/23_create_product_form
+	- Course Branch: feature/37_create_product_form
+	- Course Lesson: #37
+	- New: add form to create new product, post image using multipart/form-data,
+		add BaseController, ServerError in AdminApp and BackenApi
+		refactor BackendApi to use apiresult and try catch,
+		refactor ProductService to use apiresult
+	- Bug: ValidateAntiForgeryToken ?
 
 	

@@ -12,7 +12,7 @@ namespace eShopSolution.Application.Catalog.Products
 {
     public interface IProductService
     {
-        Task<int> CreateProduct(ProductCreateRequest request);
+        Task<ApiResult<int>> CreateProduct(ProductCreateRequest request);
 
         Task<int> UpdateProduct(ProductUpdateRequest request);
 

@@ -56,12 +56,9 @@ namespace eShopSolution.AdminApp.Sevices
             return await ReturnResultAsync<TResponse>(response);
         }
 
-        protected async Task<TResponse> PostWithoutTokenAsync<TResponse, TInput>(string url, TInput request)
+        protected async Task<TResponse> PostAsync<TResponse, TInput>(string url, TInput request)
         {
-            // only for register and authenticate
-            // when user dont have bearer token
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+            var client = CreateNewHttpClient();
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
@@ -71,7 +68,7 @@ namespace eShopSolution.AdminApp.Sevices
             return await ReturnResultAsync<TResponse>(response);
         }
 
-        private HttpClient CreateNewHttpClient()
+        protected HttpClient CreateNewHttpClient()
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
@@ -80,22 +77,22 @@ namespace eShopSolution.AdminApp.Sevices
             return client;
         }
 
-        private async Task<TResponse> ReturnResultAsync<TResponse>(HttpResponseMessage response)
+        protected async Task<TResponse> ReturnResultAsync<TResponse>(HttpResponseMessage response)
         {
             var data = await response.Content.ReadAsStringAsync();
+            TResponse result;
+            // ok x
+            // badrequest
+            // server error x
+            // unotherize ?
 
             if (response.IsSuccessStatusCode)
             {
-                //List<LanguageViewModel> deserializedObjList = (List<LanguageViewModel>)JsonConvert.DeserializeObject(data, typeof(List<RoleViewModel>));
-                //return new ApiSuccessResult<List<LanguageViewModel>>(deserializedObjList);
-                TResponse result = JsonConvert.DeserializeObject<TResponse>(data);
-                //TResponse result = (TResponse)JsonConvert.DeserializeObject(data, typeof(TResponse));
+                result = JsonConvert.DeserializeObject<TResponse>(data);
                 return result;
-
-                //JsonSerializer.Deserialize
             }
-
-            return JsonConvert.DeserializeObject<TResponse>(data);
+            else
+                return default(TResponse);
         }
     }
 }

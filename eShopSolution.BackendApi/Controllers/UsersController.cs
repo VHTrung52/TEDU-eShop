@@ -16,7 +16,7 @@ namespace eShopSolution.BackendApi.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(IUserService userService, ILogger<UsersController> lgr) : base(lgr)
+        public UsersController(ILogger<UsersController> lgr, IUserService userService) : base(lgr)
         {
             _userService = userService;
         }
@@ -25,73 +25,91 @@ namespace eShopSolution.BackendApi.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate([FromBody] LoginRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var response = await _userService.Authenticate(request);
-
-            if (string.IsNullOrEmpty(response.ResultObj))
+            try
             {
-                return BadRequest(response);
-            }
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(response);
+                var response = await _userService.Authenticate(request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Exception in BackendApi\\UsersController\\Authenticate");
+                return ServerError();
+            }
         }
 
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var response = await _userService.Register(request);
-            if (!response.IsSuccessed)
+            try
             {
-                return BadRequest(response);
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _userService.Register(request);
+                return Ok(response);
             }
-            return Ok(response);
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\UsersController\\Register for UserName: {request.UserName}");
+                return ServerError();
+            }
         }
 
         //http:/localhost/api/users/id
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var response = await _userService.UpdateUser(id, request);
-
-            if (!response.IsSuccessed)
+            try
             {
-                return BadRequest(response);
-            }
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(response);
+                var response = await _userService.UpdateUser(id, request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\UsersController\\UpdateUser for userId: {id}");
+                return ServerError();
+            }
         }
 
         [HttpPut("{id}/roles")]
         public async Task<IActionResult> RoleAssign(Guid id, [FromBody] RoleAssignRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var response = await _userService.RoleAssign(id, request);
-
-            if (!response.IsSuccessed)
+            try
             {
-                return BadRequest(response);
-            }
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
 
-            return Ok(response);
+                var response = await _userService.RoleAssign(id, request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\UsersController\\RoleAssign for userId: {id}");
+                return ServerError();
+            }
         }
 
         //http://localhost/api/users/paging?pageIndex=1&pageSize=10&keyword=
         [HttpGet("paging")]
         public async Task<IActionResult> GetUserPaging([FromQuery] GetUserPagingRequest request)
         {
-            var response = await _userService.GetUserPaging(request);
-            return Ok(response);
+            try
+            {
+                var response = await _userService.GetUserPaging(request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Exception in BackendApi\\UsersController\\GetUserPaging");
+                return ServerError();
+            }
         }
 
         [HttpGet("{id}")]
@@ -104,7 +122,7 @@ namespace eShopSolution.BackendApi.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Exception in GetUserById for {id}", id);
+                logger.LogError(ex, $"Exception in BackendApi\\UsersController\\GetUserById for userId: {id}");
                 return ServerError();
             }
         }
@@ -112,8 +130,16 @@ namespace eShopSolution.BackendApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var response = await _userService.DeleteUser(id);
-            return Ok(response);
+            try
+            {
+                var response = await _userService.DeleteUser(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\UsersController\\DeleteUser for userId: {id}");
+                return ServerError();
+            }
         }
     }
 }

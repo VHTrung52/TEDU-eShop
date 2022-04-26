@@ -15,11 +15,8 @@ namespace eShopSolution.AdminApp.Controllers
     //[Authorize]
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> lgr) : base(lgr)
         {
-            _logger = logger;
         }
 
         public IActionResult Index()

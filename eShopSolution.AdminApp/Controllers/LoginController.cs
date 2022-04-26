@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,7 +24,9 @@ namespace eShopSolution.AdminApp.Controllers
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
 
-        public LoginController(IUserApiClient userApiClient, IConfiguration configuration)
+        public LoginController(
+            IUserApiClient userApiClient,
+            IConfiguration configuration)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
@@ -38,7 +43,9 @@ namespace eShopSolution.AdminApp.Controllers
         public async Task<IActionResult> Index(LoginRequest request)
         {
             if (!ModelState.IsValid)
-                return View(ModelState);
+            {
+                return View();
+            }
 
             var result = await _userApiClient.Authenticate(request);
 

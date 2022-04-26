@@ -3,6 +3,8 @@ using eShopSolution.ViewModels.Catalog.ProductImages;
 using eShopSolution.ViewModels.Catalog.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace eShopSolution.BackendApi.Controllers
@@ -10,24 +12,18 @@ namespace eShopSolution.BackendApi.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseController
     {
         private readonly IProductService _productService;
 
-        public ProductsController(IProductService ProductService)
+        public ProductsController(
+            ILogger<ProductsController> logger,
+            IProductService ProductService)
+            : base(logger)
         {
             _productService = ProductService;
         }
 
-        //http://localhost:port/product/
-        //[HttpGet("{languageId}")]
-        //public async Task<IActionResult> GetAll(string languageId)
-        //{
-        //    var products = await _publicProductService.GetAll(languageId);
-        //    return Ok(products);
-        //}
-
-        //http://localhost:port/product/public-paging
         [HttpGet("{languageId}")]
         public async Task<IActionResult> GetAllPaging(string languageId, [FromQuery] GetPublicProductPagingRequest request)
         {
@@ -36,135 +32,212 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpGet("paging")]
-        public async Task<IActionResult> GetProductPaging(string languageId, [FromQuery] GetManageProductPagingRequest request)
+        public async Task<IActionResult> GetProductPaging([FromQuery] GetManageProductPagingRequest request)
         {
-            var response = await _productService.GetProductPaging(request);
-            return Ok(response);
+            try
+            {
+                var response = await _productService.GetProductPaging(request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\GetProductPaging");
+                return ServerError();
+            }
         }
 
         //http://localhost:port/product/public/1
         [HttpGet("{productId}/{languageId}")]
         public async Task<IActionResult> GetProductById(int productId, string languageId)
         {
-            var response = await _productService.GetProductById(productId, languageId);
+            try
+            {
+                var response = await _productService.GetProductById(productId, languageId);
 
-            if (!response.IsSuccessed)
-                return BadRequest(response);
+                if (!response.IsSuccessed)
+                    return BadRequest(response);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\GetProductById for productId, languageId: {productId}, {languageId}");
+                return ServerError();
+            }
         }
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreateRequest request)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var response = await _productService.CreateProduct(request);
+                return Ok(response);
             }
-
-            var productId = await _productService.CreateProduct(request);
-            if (productId == 0)
-                return BadRequest();
-
-            var product = await _productService.GetProductById(productId, request.LanguageId);
-
-            return CreatedAtAction(nameof(GetProductById), new { id = productId }, product);
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Exception in BackendApi\\ProductsController\\CreateProduct");
+                return ServerError();
+            }
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateProduct([FromForm] ProductUpdateRequest request)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                var response = await _productService.UpdateProduct(request);
+
+                if (response == 0)
+                    return BadRequest();
+
+                return Ok();
             }
-            var response = await _productService.UpdateProduct(request);
-
-            if (response == 0)
-                return BadRequest();
-
-            return Ok();
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\UpdateProduct for productId: {request.Id}");
+                return ServerError();
+            }
         }
 
         [HttpDelete("{productId}")]
         public async Task<IActionResult> DeleteProduct(int productId)
         {
-            var response = await _productService.DeleteProduct(productId);
+            try
+            {
+                var response = await _productService.DeleteProduct(productId);
 
-            if (!response.IsSuccessed)
-                return BadRequest(response);
+                if (!response.IsSuccessed)
+                    return BadRequest(response);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\DeleteProduct for productId: {productId}");
+                return ServerError();
+            }
         }
 
         [HttpPatch("{productId}/{newPrice}")]
         public async Task<IActionResult> UpdateProductPrice(int productId, decimal newPrice)
         {
-            var response = await _productService.UpdateProductPrice(productId, newPrice);
+            try
+            {
+                var response = await _productService.UpdateProductPrice(productId, newPrice);
 
-            if (response)
-                return Ok();
+                if (response)
+                    return Ok();
 
-            return BadRequest();
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\UpdateProductPrice for productId: {productId}");
+                return ServerError();
+            }
         }
 
         //Images
         [HttpPost("{productId}/images")]
         public async Task<IActionResult> CreateProductImage(int productId, [FromForm] ProductImageCreateRequest request)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var imageId = await _productService.AddProductImage(productId, request);
+                if (productId == 0)
+                    return BadRequest();
+
+                var product = await _productService.GetImageById(imageId);
+
+                return CreatedAtAction(nameof(GetImageById), new { id = imageId }, imageId);
             }
-            var imageId = await _productService.AddProductImage(productId, request);
-            if (productId == 0)
-                return BadRequest();
-
-            var product = await _productService.GetImageById(imageId);
-
-            return CreatedAtAction(nameof(GetImageById), new { id = imageId }, imageId);
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\CreateProductImage for productId: {productId}");
+                return ServerError();
+            }
         }
 
         [HttpPut("{productId}/images/{imageId}")]
         public async Task<IActionResult> UpdateImage(int imageId, [FromForm] ProductImageUpdateRequest request)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var result = await _productService.UpdateProductImage(imageId, request);
+                if (result == 0)
+                    return BadRequest();
+
+                var product = await _productService.GetImageById(imageId);
+
+                return Ok();
             }
-            var result = await _productService.UpdateProductImage(imageId, request);
-            if (result == 0)
-                return BadRequest();
-
-            var product = await _productService.GetImageById(imageId);
-
-            return Ok();
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\UpdateImage for imageId: {imageId}");
+                return ServerError();
+            }
         }
 
         [HttpDelete("{productId}/images/{imageId}")]
         public async Task<IActionResult> DeleteImage(int imageId)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var response = await _productService.DeleteImage(imageId);
+
+                if (response == 0)
+                    return BadRequest();
+
+                return Ok();
             }
-            var response = await _productService.DeleteImage(imageId);
-
-            if (response == 0)
-                return BadRequest();
-
-            return Ok();
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\DeleteImage for imageId: {imageId}");
+                return ServerError();
+            }
         }
 
         [HttpGet("{productId}/images/{imageId}")]
         public async Task<IActionResult> GetImageById(int productId, int imageId)
         {
-            var response = await _productService.GetImageById(imageId);
+            try
+            {
+                var response = await _productService.GetImageById(imageId);
 
-            if (!response.IsSuccessed)
-                return BadRequest(response);
+                if (!response.IsSuccessed)
+                    return BadRequest(response);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\GetImageById for productId, imageId: {productId}, {imageId}");
+                return ServerError();
+            }
         }
     }
 }

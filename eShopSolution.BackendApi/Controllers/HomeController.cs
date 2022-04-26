@@ -9,19 +9,15 @@ using System.Threading.Tasks;
 
 namespace eShopSolution.BackendApi.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> lgr) : base(lgr)
         {
-            _logger = logger;
         }
 
         public IActionResult Index()
         {
             return Ok();
         }
-
     }
 }

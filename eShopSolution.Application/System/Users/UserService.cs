@@ -70,6 +70,7 @@ namespace eShopSolution.Application.System.Users
         public async Task<ApiResult<bool>> DeleteUser(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
+            user = null;
             if (user == null)
             {
                 return new ApiErrorResult<bool>("Tài khoản không tồn tại");

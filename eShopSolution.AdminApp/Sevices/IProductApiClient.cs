@@ -14,5 +14,7 @@ namespace eShopSolution.AdminApp.Sevices
         Task<ApiResult<ProductViewModel>> GetProductById(Guid id);
 
         Task<ApiResult<bool>> DeleteProduct(Guid id);
+
+        Task<bool> CreateProduct(ProductCreateRequest request);
     }
 }

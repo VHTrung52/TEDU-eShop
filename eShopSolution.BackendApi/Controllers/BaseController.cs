@@ -1,4 +1,5 @@
-﻿using FluentValidation.Results;
+﻿using eShopSolution.ViewModels.Common;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Logging;
@@ -12,16 +13,16 @@ namespace eShopSolution.BackendApi.Controllers
     {
         private const string UnexpectedServerErrorStr = "An Unexpected Server Error has occurred.";
 
-        protected ILogger<BaseController> Logger { get; }
+        protected readonly ILogger<BaseController> logger;
 
         protected BaseController(ILogger<BaseController> lgr)
         {
-            Logger = lgr;
+            logger = lgr;
         }
 
-        protected ObjectResult ServerError(string errMsg = null)
+        protected ObjectResult ServerError()
         {
-            return StatusCode((int)HttpStatusCode.InternalServerError, errMsg ?? UnexpectedServerErrorStr);
+            return StatusCode((int)HttpStatusCode.InternalServerError, UnexpectedServerErrorStr);
         }
     }
 }

@@ -59,5 +59,20 @@ namespace eShopSolution.AdminApp.Sevices
         {
             return await PutAsync<ApiResult<bool>, UserUpdateRequest>($"/api/users/{id}", request);
         }
+
+        private async Task<TResponse> PostWithoutTokenAsync<TResponse, TInput>(string url, TInput request)
+        {
+            // only for register and authenticate
+            // when user dont have bearer token
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.AppSettings.BaseAddress]);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync(url, httpContent);
+
+            return await ReturnResultAsync<TResponse>(response);
+        }
     }
 }

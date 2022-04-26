@@ -4,17 +4,22 @@ using eShopSolution.ViewModels.Catalog.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
 namespace eShopSolution.AdminApp.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseController
     {
         private readonly IProductApiClient _productApiClient;
         private readonly IConfiguration _configuration;
 
-        public ProductController(IProductApiClient productApiClient, IConfiguration configuration)
+        public ProductController(
+            ILogger<ProductController> lgr,
+            IProductApiClient productApiClient,
+            IConfiguration configuration)
+            : base(lgr)
         {
             _productApiClient = productApiClient;
             _configuration = configuration;
@@ -54,18 +59,21 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ProductCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create([FromForm] ProductCreateRequest request)
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View();
-            var result = await _productApiClient.(request);
-            if (result.IsSuccessed)
+
+            var response = await _productApiClient.CreateProduct(request);
+
+            if (response)
             {
-                TempData["result"] = "Thêm mới người dùng thành công";
+                TempData["result"] = "Thêm mới sản phẩm thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);*/
+            ModelState.AddModelError("", "Thêm mới sản phẩm thấy bại");
             return View(request);
         }
 

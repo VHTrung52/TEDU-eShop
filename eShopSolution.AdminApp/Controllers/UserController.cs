@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -17,7 +18,12 @@ namespace eShopSolution.AdminApp.Controllers
         private readonly IConfiguration _configuration;
         private readonly IRoleApiClient _roleApiClient;
 
-        public UserController(IUserApiClient userApiClient, IConfiguration configuration, IRoleApiClient roleApiClient)
+        public UserController(
+            ILogger<UserController> lgr,
+            IUserApiClient userApiClient,
+            IConfiguration configuration,
+            IRoleApiClient roleApiClient)
+            : base(lgr)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
@@ -32,12 +38,14 @@ namespace eShopSolution.AdminApp.Controllers
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };
+
             var response = await _userApiClient.GetUsersPagings(request);
             ViewBag.KeyWord = keyWord;
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
+
             return View(response.ResultObj);
         }
 
@@ -61,35 +69,37 @@ namespace eShopSolution.AdminApp.Controllers
                 return View();
 
             var response = await _userApiClient.RegiterUser(request);
-            if (response.IsSuccessed)
+            if (!response.IsSuccessed)
             {
-                TempData["result"] = response.Message;
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", response.Message);
+                return View(request);
             }
 
-            ModelState.AddModelError("", response.Message);
-            return View(request);
+            TempData["result"] = response.Message;
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
             var response = await _userApiClient.GetUserById(id);
-            if (response.IsSuccessed)
+            if (!response.IsSuccessed)
             {
-                var user = response.ResultObj;
-                var userUpdateRequest = new UserUpdateRequest()
-                {
-                    Dob = user.Dob,
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    PhoneNumber = user.PhoneNumber,
-                    Id = id
-                };
-                return View(userUpdateRequest);
+                return RedirectToAction("Error", "Home");
             }
-            return RedirectToAction("Error", "Home");
+
+            var user = response.ResultObj;
+            var userUpdateRequest = new UserUpdateRequest()
+            {
+                Dob = user.Dob,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.PhoneNumber,
+                Id = id
+            };
+
+            return View(userUpdateRequest);
         }
 
         [HttpPost]
@@ -99,14 +109,14 @@ namespace eShopSolution.AdminApp.Controllers
                 return View();
 
             var response = await _userApiClient.UpdateUser(request.Id, request);
-            if (response.IsSuccessed)
+            if (!response.IsSuccessed)
             {
-                TempData["result"] = response.Message;
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", response.Message);
+                return View(response);
             }
 
-            ModelState.AddModelError("", response.Message);
-            return View(response);
+            TempData["result"] = response.Message;
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -133,14 +143,14 @@ namespace eShopSolution.AdminApp.Controllers
                 return View();
 
             var response = await _userApiClient.DeleteUser(request.Id);
-            if (response.IsSuccessed)
+            if (!response.IsSuccessed)
             {
-                TempData["result"] = response.Message;
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", response.Message);
+                return View(request);
             }
 
-            ModelState.AddModelError("", response.Message);
-            return View(request);
+            TempData["result"] = response.Message;
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -157,11 +167,11 @@ namespace eShopSolution.AdminApp.Controllers
                 return View();
 
             var response = await _userApiClient.RoleAssign(request.Id, request);
-            if (response.IsSuccessed)
+            /*if (response.IsSuccessed)
             {
                 TempData["result"] = response.Message;
                 return RedirectToAction("Index");
-            }
+            }*/
 
             ModelState.AddModelError("", response.Message);
             var roleAssignRequest = await GetRoleAssignRequest(request.Id);

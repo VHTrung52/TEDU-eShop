@@ -9,10 +9,10 @@ namespace eShopSolution.ViewModels.System.Users
     {
         public LoginRequestValidator()
         {
-            RuleFor(x => x.UserName).NotEmpty().WithMessage("User name is required");
+            RuleFor(x => x.UserName).NotEmpty().WithMessage("Phải nhập tên người dùng");
 
-            RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required")
-                .MinimumLength(6).WithMessage("Password is at least 6 characters");
+            RuleFor(x => x.Password).NotEmpty().WithMessage("Phải nhập mật khẩu")
+                .MinimumLength(6).WithMessage("Mật khẩu có ít nhất 6 kí tự");
         }
     }
 }

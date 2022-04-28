@@ -7,6 +7,6 @@ namespace eShopSolution.AdminApp.Sevices
 {
     public interface ILanguageApiClient
     {
-        Task<ApiResult<List<LanguageViewModel>>> GetAll();
+        Task<ApiResult<List<LanguageViewModel>>> GetAllLanguages();
     }
 }

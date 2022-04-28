@@ -7,10 +7,9 @@
 }
 @section Scripts{
     <script>
-        setTimeout(function() 
-        {
+        setTimeout(function () {
             $('#msgAlert').fadeOut('slow');
-        }, 2000)
+        }, 2000);
     </script>
 }
 <div class="container-fluid">
@@ -22,40 +21,45 @@
     <div class="card mb-12">
         <div class="card-header">
             <div class="row">
-                 <div class="col-md-2 col-xs-12">
+                <div class="col-md-6 col-xs-12">
                     <a class="btn btn-success" asp-action="Create" asp-controller="Product">Tạo mới</a>
-                </div>
-                <div class="col-md-4 col-xs-12">     
-                    @if (ViewBag.SuccessMsg != null)
-                    {
-                        <div id="msgAlert" class="alert alert-customsuccess" role="alert">
-                            @ViewBag.SuccessMsg
-                        </div>
-                    }                                
                 </div>
                 <div class="col-md-6 col-xs-12">
                     <form asp-action="Index" method="get">
                         <div class="row">
-                            <div class="col-md-9">
-                                <input type="text" value="@ViewBag.KeyWord" name="keyword" class="form-control" />
+                            <div class="col-md-4">
+                                <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
                             </div>
-                            <div class="col-md-3">                               
-                                <button class="btn btn-dark" type="button" onclick="window.location.href='/Product/Index'">Reset</button>
-                                <button class="btn btn-primary" type="submit">Tìm</button>
+                            <div class="col-md-4">
+                                <select name="categoryId" onchange="this.form.submit()" asp-items="@ViewBag.Categories" class="form-control">
+                                    <option>--Chọn danh mục--</option>
+                                </select>
                             </div>
-                        </div>                      
+                            <div class="cold-md-3">
+                                <button type="submit" class="btn btn-primary">Tìm</button>
+                                <button type="button" onclick="window.location.href='/Product/Index'" class="btn btn-dark">Reset</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
-            </div>          
+            </div>
         </div>
 
         <div class="card-body">
+            <div class="row">
+                @if (ViewBag.SuccessMsg != null)
+                {
+                    <div id="msgAlert" class="alert alert-success" role="alert">
+                        @ViewBag.SuccessMsg
+                    </div>
+                }
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
                             <th>
-                                Mã sản phẩm
+                                Mã SP
                             </th>
                             <th>
                                 Tên
@@ -69,6 +73,7 @@
                             <th>
                                 Số lượng tồn
                             </th>
+
                             <th></th>
                         </tr>
                     </thead>
@@ -91,10 +96,11 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Stock)
                                 </td>
+
                                 <td>
                                     @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Xem", "Details", new { id = item.Id }) |
-                                    @Html.ActionLink("Xoá", "Delete", new { id = item.Id })
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id }) |
                                 </td>
                             </tr>
                         }

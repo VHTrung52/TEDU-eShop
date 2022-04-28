@@ -13,16 +13,16 @@ namespace eShopSolution.AdminApp.Sevices
 {
     public class BaseApiClient
     {
-        protected readonly IHttpClientFactory _httpClientFactory;
         protected readonly IConfiguration _configuration;
+        protected readonly IHttpClientFactory _httpClientFactory;
         protected readonly IHttpContextAccessor _httpContextAccessor;
 
         protected BaseApiClient(IHttpClientFactory httpClientFactory,
             IConfiguration configuration,
             IHttpContextAccessor httpContextAccessor)
         {
-            _httpClientFactory = httpClientFactory;
             _configuration = configuration;
+            _httpClientFactory = httpClientFactory;
             _httpContextAccessor = httpContextAccessor;
         }
 

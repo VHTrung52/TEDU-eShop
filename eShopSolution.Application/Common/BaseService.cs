@@ -8,13 +8,13 @@ namespace eShopSolution.Application.Common
 {
     public abstract class BaseService
     {
-        protected ILogger<BaseService> logger { get; }
-        protected readonly EShopDbContext dbContext;
+        protected ILogger<BaseService> Logger { get; }
+        protected readonly EShopDbContext DbContext;
 
-        public BaseService(ILogger<BaseService> lgr, EShopDbContext context)
+        public BaseService(ILogger<BaseService> logger, EShopDbContext dbContext)
         {
-            logger = lgr;
-            dbContext = context;
+            Logger = logger;
+            DbContext = dbContext;
         }
     }
 }

@@ -26,11 +26,11 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllRoles()
         {
             try
             {
-                var response = await _roleService.GetAll();
+                var response = await _roleService.GetAllRoles();
                 return Ok(response);
             }
             catch (Exception ex)

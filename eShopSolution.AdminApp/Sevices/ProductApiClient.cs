@@ -73,6 +73,7 @@ namespace eShopSolution.AdminApp.Sevices
                 $"pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
                 $"&keyWord={request.Keyword}" +
+                $"&categoryId={request.CategoryId}" +
                 $"&languageId={request.LanguageId}");
         }
 

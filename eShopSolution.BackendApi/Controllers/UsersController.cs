@@ -16,7 +16,10 @@ namespace eShopSolution.BackendApi.Controllers
     {
         private readonly IUserService _userService;
 
-        public UsersController(ILogger<UsersController> lgr, IUserService userService) : base(lgr)
+        public UsersController(
+            ILogger<UsersController> lgr,
+            IUserService userService)
+            : base(lgr)
         {
             _userService = userService;
         }

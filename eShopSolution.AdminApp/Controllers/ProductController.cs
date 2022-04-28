@@ -3,9 +3,11 @@ using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Catalog.Products;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace eShopSolution.AdminApp.Controllers
@@ -13,19 +15,19 @@ namespace eShopSolution.AdminApp.Controllers
     public class ProductController : BaseController
     {
         private readonly IProductApiClient _productApiClient;
-        private readonly IConfiguration _configuration;
+        private readonly ICategoryApiClient _categoryApiClient;
 
         public ProductController(
             ILogger<ProductController> lgr,
             IProductApiClient productApiClient,
-            IConfiguration configuration)
+            ICategoryApiClient categoryApiClient)
             : base(lgr)
         {
             _productApiClient = productApiClient;
-            _configuration = configuration;
+            _categoryApiClient = categoryApiClient;
         }
 
-        public async Task<IActionResult> Index(string keyWord, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyWord, int? categoryId, int pageIndex = 1, int pageSize = 10)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
@@ -34,15 +36,24 @@ namespace eShopSolution.AdminApp.Controllers
                 Keyword = keyWord,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                LanguageId = languageId
+                LanguageId = languageId,
+                CategoryId = categoryId
             };
-            var data = await _productApiClient.GetProductPagings(request);
+            var productData = await _productApiClient.GetProductPagings(request);
             ViewBag.KeyWord = keyWord;
+            var categoryData = await _categoryApiClient.GetAllCategories(languageId);
+            ViewBag.Categories = categoryData.ResultObj.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Id.ToString(),
+                Selected = categoryId.HasValue && categoryId.Value == x.Id
+            });
+
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
-            return View(data.ResultObj);
+            return View(productData.ResultObj);
         }
 
         [HttpGet]

@@ -14,17 +14,20 @@ namespace eShopSolution.BackendApi.Controllers
     {
         private readonly ILanguageService _languageService;
 
-        public LanguagesController(ILogger<LanguagesController> lgr, ILanguageService LanguageService) : base(lgr)
+        public LanguagesController(
+            ILogger<LanguagesController> lgr,
+            ILanguageService languageService)
+            : base(lgr)
         {
-            _languageService = LanguageService;
+            _languageService = languageService;
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAllLanguages()
         {
             try
             {
-                var response = await _languageService.GetAll();
+                var response = await _languageService.GetAllLanguages();
                 return Ok(response);
             }
             catch (Exception ex)

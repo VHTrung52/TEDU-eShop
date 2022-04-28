@@ -11,7 +11,9 @@ namespace eShopSolution.BackendApi.Controllers
 {
     public class HomeController : BaseController
     {
-        public HomeController(ILogger<HomeController> lgr) : base(lgr)
+        public HomeController(
+            ILogger<HomeController> lgr)
+            : base(lgr)
         {
         }
 

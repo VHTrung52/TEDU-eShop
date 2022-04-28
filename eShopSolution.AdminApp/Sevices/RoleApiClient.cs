@@ -15,7 +15,8 @@ namespace eShopSolution.AdminApp.Sevices
     {
         public RoleApiClient(IHttpClientFactory httpClientFactory,
             IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor) : base(httpClientFactory, configuration, httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor)
+            : base(httpClientFactory, configuration, httpContextAccessor)
         {
         }
 

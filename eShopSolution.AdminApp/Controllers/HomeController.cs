@@ -15,7 +15,9 @@ namespace eShopSolution.AdminApp.Controllers
     //[Authorize]
     public class HomeController : BaseController
     {
-        public HomeController(ILogger<HomeController> lgr) : base(lgr)
+        public HomeController(
+            ILogger<HomeController> lgr)
+            : base(lgr)
         {
         }
 

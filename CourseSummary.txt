@@ -177,10 +177,16 @@
 29	- Branch: feature/29_integrate_ckeditor
 	- Course Branch: feature/38_integrate_ckeditor
 	- Course Lesson: #38
-	- New: add ckeditor 
+	- New: add ckeditor5 
 		tutorial: copy cdn from https://ckeditor.com/ckeditor-5/download/ 
 		-> <script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script> 
 		-> add to create product view 
 		(for ex, download ckeditor from link -> unzip -> view code from index.html)
 	- Bug: 
+
+30	- Branch: feature/30_dropdown_category
+	- Course Branch: feature/39_use_dropdown
+	- Course Lesson: #39
+	- New: add find product by category 
+	- Bug: can only find product of 1 category eachtime, change to dropdown to dropdown with checkbox ?
 	

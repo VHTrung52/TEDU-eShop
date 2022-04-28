@@ -9,6 +9,6 @@ namespace eShopSolution.Application.System.Languages
 {
     public interface ILanguageService
     {
-        Task<ApiResult<List<LanguageViewModel>>> GetAll();
+        Task<ApiResult<List<LanguageViewModel>>> GetAllLanguages();
     }
 }

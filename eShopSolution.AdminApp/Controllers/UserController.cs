@@ -15,18 +15,15 @@ namespace eShopSolution.AdminApp.Controllers
     public class UserController : BaseController
     {
         private readonly IUserApiClient _userApiClient;
-        private readonly IConfiguration _configuration;
         private readonly IRoleApiClient _roleApiClient;
 
         public UserController(
             ILogger<UserController> lgr,
             IUserApiClient userApiClient,
-            IConfiguration configuration,
             IRoleApiClient roleApiClient)
             : base(lgr)
         {
             _userApiClient = userApiClient;
-            _configuration = configuration;
             _roleApiClient = roleApiClient;
         }
 

@@ -239,5 +239,23 @@ namespace eShopSolution.BackendApi.Controllers
                 return ServerError();
             }
         }
+
+        [HttpPut("{productId}/categories")]
+        public async Task<IActionResult> CategoryAssign(int productId, [FromBody] CategoryAssignRequest request)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var response = await _productService.CategoryAssign(productId, request);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\CategoryAssign for productId: {productId}");
+                return ServerError();
+            }
+        }
     }
 }

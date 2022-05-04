@@ -9,12 +9,14 @@ namespace eShopSolution.AdminApp.Sevices
     {
         Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPagings(GetManageProductPagingRequest request);
 
-        Task<ApiResult<bool>> UpdateProduct(Guid id, ProductUpdateRequest request);
+        Task<ApiResult<bool>> UpdateProduct(int productId, ProductUpdateRequest request);
 
-        Task<ApiResult<ProductViewModel>> GetProductById(Guid id);
+        Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId);
 
-        Task<ApiResult<bool>> DeleteProduct(Guid id);
+        Task<ApiResult<bool>> DeleteProduct(int productId);
 
         Task<bool> CreateProduct(ProductCreateRequest request);
+
+        Task<ApiResult<bool>> CategoryAssign(int productId, CategoryAssignRequest request);
     }
 }

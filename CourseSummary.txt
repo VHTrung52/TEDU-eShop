@@ -160,7 +160,8 @@
 27	- Branch: feature/22_product_list
 	- Course Branch: feature/36_product_list
 	- Course Lesson: #36
-	- New: refactor UserApiClient, add ProductController in AdminApp, add custom alert css alert-customsuccess, refactor ProductService
+	- New: refactor UserApiClient, add ProductController in AdminApp, refactor ProductService
+		add custom alert css alert-customsuccess, change alert of user index view
 		flow: add service in Application -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
 			add service in AdminApp -> add AddTransient in Startup in BackendApi -> add controller in BackendApi
 	- Bug: 
@@ -174,7 +175,7 @@
 		refactor ProductService to use apiresult
 	- Bug: ValidateAntiForgeryToken ?
 
-29	- Branch: feature/29_integrate_ckeditor
+29	- Branch: feature/24_integrate_ckeditor
 	- Course Branch: feature/38_integrate_ckeditor
 	- Course Lesson: #38
 	- New: add ckeditor5 
@@ -184,9 +185,15 @@
 		(for ex, download ckeditor from link -> unzip -> view code from index.html)
 	- Bug: 
 
-30	- Branch: feature/30_dropdown_category
+30	- Branch: feature/25_dropdown_category
 	- Course Branch: feature/39_use_dropdown
 	- Course Lesson: #39
 	- New: add find product by category 
 	- Bug: can only find product of 1 category eachtime, change to dropdown to dropdown with checkbox ?
+
+31	- Branch: feature/26_assing_product_to_category
+	- Course Branch: feature/40_assing_product_to_category
+	- Course Lesson: #40
+	- New: add assign category to product, add new linq to select all product
+	- Bug: 
 	

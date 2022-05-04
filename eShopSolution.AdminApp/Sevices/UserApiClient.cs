@@ -16,7 +16,8 @@ namespace eShopSolution.AdminApp.Sevices
     {
         public UserApiClient(IHttpClientFactory httpClientFactory,
             IConfiguration configuration,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor
+            )
             : base(httpClientFactory, configuration, httpContextAccessor)
         {
         }
@@ -50,9 +51,9 @@ namespace eShopSolution.AdminApp.Sevices
             return await PostWithoutTokenAsync<ApiResult<bool>, RegisterRequest>("/api/users/register", request);
         }
 
-        public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
+        public async Task<ApiResult<bool>> RoleAssign(Guid userId, RoleAssignRequest request)
         {
-            return await PutAsync<ApiResult<bool>, RoleAssignRequest>($"/api/users/{id}/roles", request);
+            return await PutAsync<ApiResult<bool>, RoleAssignRequest>($"/api/users/{userId}/roles", request);
         }
 
         public async Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request)

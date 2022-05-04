@@ -1,6 +1,7 @@
 ﻿using eShopSolution.AdminApp.Sevices;
 using eShopSolution.Utilities.Constants;
 using eShopSolution.ViewModels.Catalog.Products;
+using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -39,10 +40,12 @@ namespace eShopSolution.AdminApp.Controllers
                 LanguageId = languageId,
                 CategoryId = categoryId
             };
-            var productData = await _productApiClient.GetProductPagings(request);
+
+            var productResponse = await _productApiClient.GetProductPagings(request);
+            var categoryResponse = await _categoryApiClient.GetAllCategories(languageId);
+
             ViewBag.KeyWord = keyWord;
-            var categoryData = await _categoryApiClient.GetAllCategories(languageId);
-            ViewBag.Categories = categoryData.ResultObj.Select(x => new SelectListItem()
+            ViewBag.Categories = categoryResponse.ResultObj.Select(x => new SelectListItem()
             {
                 Text = x.Name,
                 Value = x.Id.ToString(),
@@ -53,14 +56,16 @@ namespace eShopSolution.AdminApp.Controllers
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
-            return View(productData.ResultObj);
+
+            return View(productResponse.ResultObj);
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(Guid id)
         {
-            var result = await _productApiClient.GetProductById(id);
-            return View(result.ResultObj);
+            //var result = await _productApiClient.GetProductById(id);
+            //return View(result.ResultObj);
+            throw new NotImplementedException();
         }
 
         [HttpGet]
@@ -78,29 +83,30 @@ namespace eShopSolution.AdminApp.Controllers
 
             var response = await _productApiClient.CreateProduct(request);
 
-            if (response)
+            if (!response)
             {
-                TempData["result"] = "Thêm mới sản phẩm thành công";
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", "Thêm mới sản phẩm thấy bại");
+                return View(request);
             }
 
-            ModelState.AddModelError("", "Thêm mới sản phẩm thấy bại");
-            return View(request);
+            TempData["result"] = "Thêm mới sản phẩm thành công";
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(Guid id)
         {
-            var result = await _productApiClient.GetProductById(id);
-            if (result.IsSuccessed)
+            /*var result = await _productApiClient.GetProductById(id);
+            if (!result.IsSuccessed)
             {
-                var product = result.ResultObj;
-                var productUpdateRequest = new ProductUpdateRequest()
-                {
-                };
-                return View(productUpdateRequest);
+                return RedirectToAction("Error", "Home");
             }
-            return RedirectToAction("Error", "Home");
+
+            var product = result.ResultObj;
+            var productUpdateRequest = new ProductUpdateRequest();
+
+            return View(productUpdateRequest);*/
+            throw new NotImplementedException();
         }
 
         [HttpPost]
@@ -115,8 +121,9 @@ namespace eShopSolution.AdminApp.Controllers
                  return RedirectToAction("Index");
              }
 
-             ModelState.AddModelError("", result.Message);*/
-            return View(request);
+             ModelState.AddModelError("", result.Message);
+            return View(request);*/
+            throw new NotImplementedException();
         }
 
         [HttpGet]
@@ -125,8 +132,9 @@ namespace eShopSolution.AdminApp.Controllers
             /*            return View(new Produc()
                         {
                             Id = id
-                        });*/
-            return View();
+                        });
+            return View();*/
+            throw new NotImplementedException();
         }
 
         [HttpPost]
@@ -144,7 +152,54 @@ namespace eShopSolution.AdminApp.Controllers
 
             ModelState.AddModelError("", result.Message);
             return View(request);*/
-            return View();
+            throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryAssign(int productId)
+        {
+            var response = await GetCategoryAssignRequest(productId);
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CategoryAssign(CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var response = await _productApiClient.CategoryAssign(request.ProductId, request);
+            if (!response.IsSuccessed)
+            {
+                ModelState.AddModelError("", response.Message);
+                var categoryAssignRequest = await GetCategoryAssignRequest(request.ProductId);
+                return View(request);
+            }
+
+            TempData["result"] = response.Message;
+            return RedirectToAction("Index");
+        }
+
+        private async Task<CategoryAssignRequest> GetCategoryAssignRequest(int productId)
+        {
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            //productObj
+            var productApiResponse = await _productApiClient.GetProductById(productId, languageId);
+            //categoryObj
+            var categoryApiResponse = await _categoryApiClient.GetAllCategories(languageId);
+
+            var categoryAssignRequest = new CategoryAssignRequest();
+            foreach (var category in categoryApiResponse.ResultObj)
+            {
+                categoryAssignRequest.Categories.Add(new SelectItem()
+                {
+                    Id = category.Id.ToString(),
+                    Name = category.Name,
+                    IsSelected = productApiResponse.ResultObj.Categories.Contains(category.Name)
+                });
+            }
+
+            return categoryAssignRequest;
         }
     }
 }

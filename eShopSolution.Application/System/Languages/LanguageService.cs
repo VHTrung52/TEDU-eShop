@@ -15,18 +15,13 @@ namespace eShopSolution.Application.System.Languages
 {
     public class LanguageService : BaseService, ILanguageService
     {
-        private readonly EShopDbContext _dbContext;
-
-        public LanguageService(
-            ILogger<LanguageService> lgr,
-            EShopDbContext context)
-            : base(lgr, context)
+        public LanguageService(ILogger<LanguageService> lgr, EShopDbContext context) : base(lgr, context)
         {
         }
 
         public async Task<ApiResult<List<LanguageViewModel>>> GetAllLanguages()
         {
-            var languages = await _dbContext.Languages.Select(x => new LanguageViewModel()
+            var languages = await DbContext.Languages.Select(x => new LanguageViewModel()
             {
                 Id = x.Id,
                 Name = x.Name

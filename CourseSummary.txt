@@ -194,6 +194,12 @@
 31	- Branch: feature/26_assing_product_to_category
 	- Course Branch: feature/40_assing_product_to_category
 	- Course Lesson: #40
-	- New: add assign category to product, add new linq to select all product
+	- New: add assign category to product, add new linq query to select all product in application/categories/product/productservice
+	- Bug: 
+
+32	- Branch: feature/27_add_webportal_template
+	- Course Branch: feature/41_add_webportal_template
+	- Course Lesson: #41
+	- New: add template for webapp (link in readme), add view component (sidebar), RenderBody, RenderSection
 	- Bug: 
 	

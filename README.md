@@ -10,11 +10,6 @@
 - Visual Studio 2022
 - SQL Server 2021
 
-## Youtube tutorial
-- Video list: https://www.youtube.com/playlist?list=PLRhlTlpDUWsyN_FiVQrDWMtHix_E2A_UD
-- Github link (course project): https://github.com/teduinternational/eShopSolution
-- Github link (my project): https://github.com/VHTrung52/TEDU-eShop
-
 ## How to configure and run
 ### Require software
 - Visual Studio 2022
@@ -33,5 +28,12 @@
 - Set multiple run project: Right click to Solution and choose Properties and set Multiple Project, choose Start for 3 Projects: BackendApi, WebApp and AdminApp.
 - Choose profile to run or press F5
 
-## Admin template: https://startbootstrap.com/templates/sb-admin/
-## Portal template: https://www.free-css.com/free-css-templates/page194/bootstrap-shop
+## Youtube tutorial
+- Video list: https://www.youtube.com/playlist?list=PLRhlTlpDUWsyN_FiVQrDWMtHix_E2A_UD
+- Github link (course project): https://github.com/teduinternational/eShopSolution
+- Github link (my project): https://github.com/VHTrung52/TEDU-eShop
+
+## Admin template
+- https://startbootstrap.com/templates/sb-admin/
+## Portal template
+- https://www.free-css.com/free-css-templates/page194/bootstrap-shop

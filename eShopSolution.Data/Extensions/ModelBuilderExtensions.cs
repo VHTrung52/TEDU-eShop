@@ -34,13 +34,13 @@ namespace eShopSolution.Data.Extensions
             modelBuilder.Entity<Language>().HasData(
                 new Language()
                 {
-                    Id = "vi-VN",
+                    Id = "vi",
                     Name = "Tiếng Việt",
                     IsDefault = true
                 },
                 new Language()
                 {
-                    Id = "en-US",
+                    Id = "en",
                     Name = "English",
                     IsDefault = false
                 }
@@ -71,7 +71,7 @@ namespace eShopSolution.Data.Extensions
                     Id = 1,
                     CategoryId = 1,
                     Name = "Áo nam",
-                    LanguageId = "vi-VN",
+                    LanguageId = "vi",
                     SeoAlias = "ao-nam",
                     SeoDescription = "Sản phẩm áo thời trang nam",
                     SeoTitle = ""
@@ -81,7 +81,7 @@ namespace eShopSolution.Data.Extensions
                     Id = 2,
                     CategoryId = 1,
                     Name = "Men Shirt",
-                    LanguageId = "en-US",
+                    LanguageId = "en",
                     SeoAlias = "men-Shirt",
                     SeoDescription = "The shirt products for men",
                     SeoTitle = ""
@@ -91,7 +91,7 @@ namespace eShopSolution.Data.Extensions
                     Id = 3,
                     CategoryId = 2,
                     Name = "Áo nữ",
-                    LanguageId = "vi-VN",
+                    LanguageId = "vi",
                     SeoAlias = "ao-nu",
                     SeoDescription = "Sản phẩm áo thời trang nữ",
                     SeoTitle = ""
@@ -101,7 +101,7 @@ namespace eShopSolution.Data.Extensions
                     Id = 4,
                     CategoryId = 2,
                     Name = "Woman Shirt",
-                    LanguageId = "en-US",
+                    LanguageId = "en",
                     SeoAlias = "woman-Shirt",
                     SeoDescription = "The shirt products for woman",
                     SeoTitle = ""

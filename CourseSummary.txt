@@ -202,4 +202,19 @@
 	- Course Lesson: #41
 	- New: add template for webapp (link in readme), add view component (sidebar), RenderBody, RenderSection
 	- Bug: 
+
+33	- Branch: feature/28_multiple_languages
+	- Course Branch: feature/42_multiple_languages
+	- Course Lesson: #42
+	- New: 
+		1. Install packet LazZiya.ExpressLocalization and LazZiya.TagHelpers for eShopSolution.WebApp
+		chose eShopSolution.WebApp -> chose manage nuget packet 
+		2. Change languages id in migration file
+		Change id for languages vi-VN to vi, en-US to en, change in migrate file and change in db or delete db and remigrate
+		chose eShopSolution.Data as default project -> bottem left tab chose package manager console -> default project chose eShopSolution.Data
+		-> update-database
+	- Bug:
+	
+Due to lack of information, course summary wont be writen in this file (CourseSummary.txt) in the future 
+CourseSummary.docx will replace CourseSummary.txt
 	

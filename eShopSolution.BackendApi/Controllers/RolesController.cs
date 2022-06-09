@@ -1,7 +1,5 @@
 ﻿using eShopSolution.Application.System.Roles;
-using eShopSolution.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -35,7 +33,7 @@ namespace eShopSolution.BackendApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Exception in BackendApi\\RolesController\\GetAll");
+                logger.LogError(ex, $"Exception in BackendApi\\RolesController\\GetAllRoles");
                 return ServerError();
             }
         }

@@ -1,11 +1,7 @@
-﻿using eShopSolution.ViewModels.Catalog;
-using eShopSolution.ViewModels.Catalog.ProductImages;
+﻿using eShopSolution.ViewModels.Catalog.ProductImages;
 using eShopSolution.ViewModels.Catalog.Products;
 using eShopSolution.ViewModels.Common;
-using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace eShopSolution.Application.Catalog.Products
@@ -41,5 +37,7 @@ namespace eShopSolution.Application.Catalog.Products
         Task<PagedResult<ProductViewModel>> GetProductByCategoryId(string languageId, GetPublicProductPagingRequest request);
 
         Task<ApiResult<bool>> CategoryAssign(int productId, CategoryAssignRequest request);
+
+        Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take);
     }
 }

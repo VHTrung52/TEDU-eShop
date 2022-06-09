@@ -1,5 +1,3 @@
-using System;
-
 namespace eShopSolution.BackendApi.Models
 {
     public class ErrorViewModel

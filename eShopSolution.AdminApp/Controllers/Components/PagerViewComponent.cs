@@ -1,5 +1,4 @@
-﻿using eShopSolution.ViewModels.Common;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace eShopSolution.AdminApp.Controllers.Components

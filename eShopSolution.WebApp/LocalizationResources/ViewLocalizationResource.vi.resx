@@ -125,6 +125,10 @@
     <value>Giao Hàng</value>
     <comment>Views/Shared/_layout.cshtml</comment>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+    <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
   <data name="Featured Products" xml:space="preserve">
     <value>Sản Phẩm Nổi Bật</value>
     <comment>Views/Home/Index.cshtml</comment>
@@ -136,5 +140,13 @@
   <data name="Specials Offer" xml:space="preserve">
     <value>Khuyến Mãi </value>
     <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Tiếng Việt</value>
+    <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
+  <data name="VIEW" xml:space="preserve">
+    <value>XEM</value>
+    <comment>Views/Home/Index.cshtml</comment>
   </data>
 </root>

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using eShopSolution.ViewModels.System.Language;
+﻿using eShopSolution.ViewModels.System.Language;
+using System.Collections.Generic;
 
 namespace eShopSolution.AdminApp.Models
 {

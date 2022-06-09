@@ -6,10 +6,9 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace eShopSolution.AdminApp.Sevices
+namespace eShopSolution.ApiIntegration
 {
     public class BaseApiClient
     {
@@ -92,7 +91,7 @@ namespace eShopSolution.AdminApp.Sevices
                 return result;
             }
             else
-                return default(TResponse);
+                return default;
         }
     }
 }

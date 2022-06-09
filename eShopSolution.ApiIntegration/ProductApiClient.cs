@@ -4,11 +4,12 @@ using eShopSolution.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace eShopSolution.AdminApp.Sevices
+namespace eShopSolution.ApiIntegration
 {
     public class ProductApiClient : BaseApiClient, IProductApiClient
     {
@@ -64,6 +65,12 @@ namespace eShopSolution.AdminApp.Sevices
         public Task<ApiResult<bool>> DeleteProduct(int productId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take)
+        {
+            string url = $"/api/products/featured/{languageId}/{take}";
+            return await GetAsync<List<ProductViewModel>>(url);
         }
 
         public async Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId)

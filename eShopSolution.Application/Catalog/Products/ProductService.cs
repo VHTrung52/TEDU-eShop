@@ -132,7 +132,6 @@ namespace eShopSolution.Application.Catalog.Products
                               on product.Id equals productTranslation.ProductId
                           join productInCategory in DbContext.ProductInCategories
                               on product.Id equals productInCategory.ProductId into productProductInCategory
-
                           from productInCategory in productProductInCategory.DefaultIfEmpty()
                           where
                              (productTranslation.LanguageId == request.LanguageId)
@@ -385,7 +384,8 @@ namespace eShopSolution.Application.Catalog.Products
             //3. paging
             int totalRow = await query.CountAsync();
 
-            var data = await query.Skip((request.PageIndex - 1) * request.PageSize)
+            var data = await query
+                .Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new ProductViewModel()
                 {
@@ -443,6 +443,48 @@ namespace eShopSolution.Application.Catalog.Products
 
             await DbContext.SaveChangesAsync();
             return new ApiSuccessResult<bool>("Cập nhật danh mục thành công");
+        }
+
+        public async Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take)
+        {
+            var query = (from products in DbContext.Products
+                         join productTranslations in DbContext.ProductTranslations
+                             on products.Id equals productTranslations.ProductId
+                         join productInCategories in DbContext.ProductInCategories
+                             on products.Id equals productInCategories.ProductId
+                             into productProductInCategories
+                         //join productImages in DbContext.ProductImages.Where(x => x.IsDefault == true)
+                         //    on products.Id equals productImages.ProductId
+                         from productInCategories in productProductInCategories.DefaultIfEmpty()
+                         where productTranslations.LanguageId == languageId
+                         select new
+                         {
+                             products,
+                             productTranslations,
+                             //productImages
+                         }).Distinct();
+
+            var result = await query
+                .OrderByDescending(x => x.products.DateCreated)
+                .Take(take)
+                .Select(x => new ProductViewModel()
+                {
+                    Id = x.products.Id,
+                    Name = x.productTranslations.Name,
+                    DateCreated = x.products.DateCreated,
+                    Description = x.productTranslations.Description,
+                    Details = x.productTranslations.Details,
+                    OriginalPrice = x.products.OriginalPrice,
+                    Price = x.products.Price,
+                    SeoAlias = x.productTranslations.SeoAlias,
+                    SeoDescription = x.productTranslations.SeoDescription,
+                    SeoTitle = x.productTranslations.SeoTitle,
+                    Stock = x.products.Stock,
+                    ViewCount = x.products.ViewCount,
+                    //ThumbnailImagePath = x.productImages.ImagePath
+                }).ToListAsync();
+
+            return result;
         }
     }
 }

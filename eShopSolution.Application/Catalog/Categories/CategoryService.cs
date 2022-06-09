@@ -2,13 +2,11 @@
 using eShopSolution.Data.EF;
 using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Common;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace eShopSolution.Application.Catalog.Categories
 {

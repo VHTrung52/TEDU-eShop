@@ -125,6 +125,10 @@
     <value>Delivery</value>
     <comment>Views/Shared/_layout.cshtml</comment>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+    <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
   <data name="Featured Products" xml:space="preserve">
     <value>Featured Products</value>
     <comment>Views/Home/Index.cshtml</comment>
@@ -136,5 +140,13 @@
   <data name="Specials Offer" xml:space="preserve">
     <value>Specials Offer</value>
     <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
+  <data name="Vietnamese" xml:space="preserve">
+    <value>Vietnamese</value>
+    <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
+  <data name="VIEW" xml:space="preserve">
+    <value>VIEW</value>
+    <comment>Views/Home/Index.cshtml</comment>
   </data>
 </root>

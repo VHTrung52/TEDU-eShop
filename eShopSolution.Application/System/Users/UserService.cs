@@ -1,7 +1,6 @@
 ﻿using eShopSolution.Data.Entities;
 using eShopSolution.ViewModels.Common;
 using eShopSolution.ViewModels.System.Users;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -211,24 +210,6 @@ namespace eShopSolution.Application.System.Users
             {
                 return new ApiErrorResult<bool>("Tài khoản không tồn tại");
             }
-
-            /*var removedRoles = request.Roles.Where(x => x.IsSelected == false).Select(x => x.Name).ToList();
-            foreach (var role in removedRoles)
-            {
-                if (await _userManager.IsInRoleAsync(user, role) == true)
-                {
-                    await _userManager.RemoveFromRoleAsync(user, role);
-                }
-            }
-            await _userManager.RemoveFromRolesAsync(user, removedRoles);
-            var addedRoles = request.Roles.Where(x => x.IsSelected == true).Select(x => x.Name).ToList();
-            foreach (var role in addedRoles)
-            {
-                if (await _userManager.IsInRoleAsync(user, role) == false)
-                {
-                    await _userManager.AddToRoleAsync(user, role);
-                }
-            }*/
 
             foreach (var role in request.Roles)
             {

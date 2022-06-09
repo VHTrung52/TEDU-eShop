@@ -3,7 +3,7 @@ using eShopSolution.ViewModels.Common;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace eShopSolution.AdminApp.Sevices
+namespace eShopSolution.ApiIntegration
 {
     public interface ICategoryApiClient
     {

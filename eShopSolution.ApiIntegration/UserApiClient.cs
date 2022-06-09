@@ -6,11 +6,10 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.AdminApp.Sevices
+namespace eShopSolution.ApiIntegration
 {
     public class UserApiClient : BaseApiClient, IUserApiClient
     {

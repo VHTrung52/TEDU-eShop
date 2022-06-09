@@ -66,6 +66,22 @@ namespace eShopSolution.BackendApi.Controllers
             }
         }
 
+        [HttpGet("featured/{languageId}/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFeaturedProduct(string languageId, int take)
+        {
+            try
+            {
+                var response = await _productService.GetFeaturedProducts(languageId, take);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\GetFeaturedProduct for languageId: {languageId}");
+                return ServerError();
+            }
+        }
+
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreateRequest request)

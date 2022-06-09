@@ -1,10 +1,5 @@
-﻿using eShopSolution.ViewModels.Common;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Net;
 
 namespace eShopSolution.BackendApi.Controllers

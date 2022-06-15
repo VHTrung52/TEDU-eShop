@@ -75,6 +75,7 @@ namespace eShopSolution.WebApp
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ISlideApiClient, SlideApiClient>();
             services.AddTransient<IProductApiClient, ProductApiClient>();
+            services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
         }
 
@@ -104,6 +105,42 @@ namespace eShopSolution.WebApp
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "Product Category En",
+                    pattern: "{culture}/categories/{id}",
+                    new
+                    {
+                        controller = "Products",
+                        action = "GetProductsByCategory"
+                    });
+
+                endpoints.MapControllerRoute(
+                    name: "Product Category Vi",
+                    pattern: "{culture}/danh-muc/{id}",
+                    new
+                    {
+                        controller = "Products",
+                        action = "GetProductsByCategory"
+                    });
+
+                endpoints.MapControllerRoute(
+                    name: "Product Detail En",
+                    pattern: "{culture}/products/{id}",
+                    new
+                    {
+                        controller = "Products",
+                        action = "GetProductDetail"
+                    });
+
+                endpoints.MapControllerRoute(
+                    name: "Product Detail Vi",
+                    pattern: "{culture}/san-pham/{id}",
+                    new
+                    {
+                        controller = "Products",
+                        action = "GetProductDetail"
+                    });
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{culture=vi}/{controller=Home}/{action=Index}/{id?}");

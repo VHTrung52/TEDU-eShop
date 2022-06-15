@@ -68,7 +68,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpGet("featured/{languageId}/{take}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetFeaturedProduct(string languageId, int take)
+        public async Task<IActionResult> GetFeaturedProducts(string languageId, int take)
         {
             try
             {
@@ -78,6 +78,22 @@ namespace eShopSolution.BackendApi.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\GetFeaturedProduct for languageId: {languageId}");
+                return ServerError();
+            }
+        }
+
+        [HttpGet("latest/{languageId}/{take}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetLatestProducts(string languageId, int take)
+        {
+            try
+            {
+                var response = await _productService.GetLatestProducts(languageId, take);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\ProductsController\\GetLatestProduct for languageId: {languageId}");
                 return ServerError();
             }
         }

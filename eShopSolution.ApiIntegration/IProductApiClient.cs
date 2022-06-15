@@ -20,5 +20,7 @@ namespace eShopSolution.ApiIntegration
         Task<ApiResult<bool>> CategoryAssign(int productId, CategoryAssignRequest request);
 
         Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take);
+
+        Task<List<ProductViewModel>> GetLatestProducts(string languageId, int take);
     }
 }

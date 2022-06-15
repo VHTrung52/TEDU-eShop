@@ -70,7 +70,8 @@ namespace eShopSolution.ApiIntegration
         public async Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take)
         {
             string url = $"/api/products/featured/{languageId}/{take}";
-            return await GetAsync<List<ProductViewModel>>(url);
+            var data = await GetAsync<List<ProductViewModel>>(url);
+            return data;
         }
 
         public async Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId)
@@ -80,18 +81,26 @@ namespace eShopSolution.ApiIntegration
 
         public async Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPagings(GetManageProductPagingRequest request)
         {
-            return await GetAsync<ApiResult<PagedResult<ProductViewModel>>>("" +
-                "/api/products/paging?" +
+            string url = "/api/products/paging?" +
                 $"pageIndex={request.PageIndex}" +
                 $"&pageSize={request.PageSize}" +
                 $"&keyWord={request.Keyword}" +
                 $"&categoryId={request.CategoryId}" +
-                $"&languageId={request.LanguageId}");
+                $"&languageId={request.LanguageId}";
+            var data = await GetAsync<ApiResult<PagedResult<ProductViewModel>>>(url);
+            return data;
         }
 
         public Task<ApiResult<bool>> UpdateProduct(int productId, ProductUpdateRequest request)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<ProductViewModel>> GetLatestProducts(string languageId, int take)
+        {
+            string url = $"/api/products/latest/{languageId}/{take}";
+            var data = await GetAsync<List<ProductViewModel>>(url);
+            return data;
         }
     }
 }

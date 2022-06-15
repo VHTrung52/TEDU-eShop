@@ -27,7 +27,8 @@ namespace eShopSolution.Application.Catalog.Categories
             var data = await query.Select(x => new CategoryViewModel()
             {
                 Id = x.categories.Id,
-                Name = x.categoryTranslations.Name
+                Name = x.categoryTranslations.Name,
+                ParentId = x.categories.ParentId
             }).ToListAsync();
 
             return new ApiSuccessResult<List<CategoryViewModel>>(data);

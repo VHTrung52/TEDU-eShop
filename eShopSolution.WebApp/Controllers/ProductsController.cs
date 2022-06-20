@@ -4,12 +4,12 @@ namespace eShopSolution.WebApp.Controllers
 {
     public class ProductsController : Controller
     {
-        public IActionResult GetProductDetail(int id)
+        public IActionResult Detail(int id)
         {
             return View();
         }
 
-        public IActionResult GetProductsByCategory(int id)
+        public IActionResult Category(int id)
         {
             return View();
         }

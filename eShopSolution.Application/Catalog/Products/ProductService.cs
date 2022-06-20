@@ -1,6 +1,7 @@
 ﻿using eShopSolution.Application.Common;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
+using eShopSolution.Utilities.Constants;
 using eShopSolution.Utilities.Exceptions;
 using eShopSolution.ViewModels.Catalog.Categories;
 using eShopSolution.ViewModels.Catalog.ProductImages;
@@ -62,6 +63,35 @@ namespace eShopSolution.Application.Catalog.Products
         {
             try
             {
+                var languages = DbContext.Languages;
+                var productTranslations = new List<ProductTranslation>();
+                foreach (var language in languages)
+                {
+                    if (language.Id == request.LanguageId)
+                    {
+                        productTranslations.Add(new ProductTranslation()
+                        {
+                            Name = request.Name,
+                            Description = request.Description,
+                            Details = request.Details,
+                            SeoDescription = request.SeoDescription,
+                            SeoAlias = request.SeoAlias,
+                            SeoTitle = request.SeoTitle,
+                            LanguageId = request.LanguageId,
+                        });
+                    }
+                    else
+                    {
+                        productTranslations.Add(new ProductTranslation()
+                        {
+                            Name = SystemConstants.ProductConstants.NA,
+                            Description = SystemConstants.ProductConstants.NA,
+                            SeoAlias = SystemConstants.ProductConstants.NA,
+                            LanguageId = language.Id,
+                        });
+                    }
+                }
+
                 var product = new Product()
                 {
                     Price = request.Price,
@@ -69,19 +99,7 @@ namespace eShopSolution.Application.Catalog.Products
                     Stock = request.Stock,
                     ViewCount = 0,
                     DateCreated = DateTime.Now,
-                    ProductTranslations = new List<ProductTranslation>()
-                {
-                    new ProductTranslation()
-                    {
-                        Name = request.Name,
-                        Description = request.Description,
-                        Details = request.Details,
-                        SeoDescription = request.SeoDescription,
-                        SeoAlias = request.SeoAlias,
-                        SeoTitle = request.SeoTitle,
-                        LanguageId = request.LanguageId,
-                    }
-                }
+                    ProductTranslations = productTranslations
                 };
 
                 //Save image
@@ -126,7 +144,6 @@ namespace eShopSolution.Application.Catalog.Products
 
         public async Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPaging(GetManageProductPagingRequest request)
         {
-            request.PageSize = 5;
             //1. Select join
             var query1 = (
                 from product in DbContext.Products
@@ -141,8 +158,7 @@ namespace eShopSolution.Application.Catalog.Products
                     && ((request.CategoryId != null && request.CategoryId != 0) ? productInCategory.CategoryId == request.CategoryId : true)
                 select new { 
                     product, 
-                    productTranslation,
-                    productInCategory
+                    productTranslation
                 })
                 .Distinct()
                 .OrderBy(x => x.product).ThenBy(y => y.productTranslation);
@@ -161,7 +177,7 @@ namespace eShopSolution.Application.Catalog.Products
                     Description = x.productTranslation.Description,
                     Details = x.productTranslation.Details,
                     OriginalPrice = x.product.OriginalPrice,
-                    Price = x.product.Price,
+                    Price = x.product.Price, 
                     SeoAlias = x.productTranslation.SeoAlias,
                     SeoDescription = x.productTranslation.SeoDescription,
                     SeoTitle = x.productTranslation.SeoTitle,

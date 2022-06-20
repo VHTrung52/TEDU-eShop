@@ -23,7 +23,7 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-5 col-xs-12">
-                    <a class="btn btn-success" asp-action="Create" asp-controller="Product">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="CreateProduct" asp-controller="Products">Tạo mới</a>
                 </div>
                 <div class="col-md-7 col-xs-12">
                     <form asp-action="Index" method="get">
@@ -38,7 +38,7 @@
                             </div>
                             <div class="col-md-3">
                                 <button type="submit" class="btn btn-primary">Tìm</button>
-                                <button type="button" onclick="window.location.href='/Product/Index'" class="btn btn-dark">Reset</button>
+                                <button type="button" onclick="window.location.href='/Products/Index'" class="btn btn-dark">Reset</button>
                             </div>
                         </div>
                     </form>
@@ -113,12 +113,13 @@
                                             @Html.DisplayFor(modelItem => item.Stock)
                                         </td>
                                         <td>
-                                            @if(item.Categories.Count > 0)                                          
+                                            @if(item.Categories.Count > 0)
+                                            {
                                                 @foreach(string category in item.Categories)
                                                 {
                                                     @Html.DisplayFor(modelItem => category) <text>; </text>     
-                                                }
-                                                                                                                                                               
+                                                }  
+                                            } 
                                         </td>
                                         <td>
                                             @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
@@ -131,8 +132,27 @@
                             </tbody>
                         </table>
                     </div>
-                }                         
-            @await Component.InvokeAsync("Pager", Model)
+                    <div class="row">
+                        <div class="col-md-6 col-xs-12">
+                            @{
+                                var start = 1;
+                                var end = Model.PageIndex * Model.PageSize;
+                                if(Model.PageIndex != 1)
+                                {
+                                    start = (Model.PageIndex - 1) * Model.PageSize + 1;
+                                }
+                                if(end > Model.TotalRecords)
+                                {
+                                    end = Model.TotalRecords;
+                                }
+                            }                   
+                            <p>Showing @start to @end of @Model.TotalRecords products</p>
+                        </div>
+                        <div class="col-md-6 col-xs-12">
+                            @await Component.InvokeAsync("Pager", Model)
+                        </div>   
+                    </div>
+                }            
         </div>
     </div>
 </div>

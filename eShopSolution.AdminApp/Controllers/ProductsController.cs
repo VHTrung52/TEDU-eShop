@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace eShopSolution.AdminApp.Controllers
 {
-    public class ProductController : BaseController
+    public class ProductsController : BaseController
     {
         private readonly IProductApiClient _productApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
 
-        public ProductController(
-            ILogger<ProductController> lgr,
+        public ProductsController(
+            ILogger<ProductsController> lgr,
             IProductApiClient productApiClient,
             ICategoryApiClient categoryApiClient)
             : base(lgr)
@@ -27,7 +27,7 @@ namespace eShopSolution.AdminApp.Controllers
             _categoryApiClient = categoryApiClient;
         }
 
-        public async Task<IActionResult> Index(string keyWord, int? categoryId, int pageIndex = 1, int pageSize = 10)
+        public async Task<IActionResult> Index(string keyWord, int? categoryId, int pageIndex = 1, int pageSize = 5)
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
@@ -40,7 +40,7 @@ namespace eShopSolution.AdminApp.Controllers
                 CategoryId = categoryId
             };
 
-            var productResponse = await _productApiClient.GetProductPagings(request);
+            var productResponse = await _productApiClient.GetProductPaging(request);
             var categoryResponse = await _categoryApiClient.GetAllCategories(languageId);
 
             ViewBag.KeyWord = keyWord;
@@ -93,36 +93,42 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(int id)
         {
-            /*var result = await _productApiClient.GetProductById(id);
-            if (!result.IsSuccessed)
+            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+
+            var response = await _productApiClient.GetProductById(id, languageId);
+            var request = new ProductUpdateRequest()
             {
-                return RedirectToAction("Error", "Home");
-            }
-
-            var product = result.ResultObj;
-            var productUpdateRequest = new ProductUpdateRequest();
-
-            return View(productUpdateRequest);*/
-            throw new NotImplementedException();
+                Id = response.ResultObj.Id,
+                Description = response.ResultObj.Description,
+                Details = response.ResultObj.Details,
+                Name = response.ResultObj.Name,
+                SeoAlias = response.ResultObj.SeoAlias,
+                SeoDescription = response.ResultObj.SeoDescription,
+                SeoTitle = response.ResultObj.SeoTitle,
+            };
+            return View(request);
         }
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Edit(ProductUpdateRequest request)
         {
-            /* if (!ModelState.IsValid)
-                 return View();
-             var result = await _productApiClient.UpdateProduct(request.Id, request);
-             if (result.IsSuccessed)
-             {
-                 TempData["result"] = "Cập nhật người dùng thành công";
-                 return RedirectToAction("Index");
-             }
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
 
-             ModelState.AddModelError("", result.Message);
-            return View(request);*/
-            throw new NotImplementedException();
+            var result = await _productApiClient.UpdateProduct(request.Id, request);
+            if (result)
+            {
+                TempData["result"] = "Cập nhật sản phẩm thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", "Cập nhật sản phẩm thất bại");
+            return View(request);
         }
 
         [HttpGet]

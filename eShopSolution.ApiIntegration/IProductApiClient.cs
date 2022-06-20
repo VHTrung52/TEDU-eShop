@@ -7,9 +7,9 @@ namespace eShopSolution.ApiIntegration
 {
     public interface IProductApiClient
     {
-        Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPagings(GetManageProductPagingRequest request);
+        Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPaging(GetManageProductPagingRequest request);
 
-        Task<ApiResult<bool>> UpdateProduct(int productId, ProductUpdateRequest request);
+        Task<bool> UpdateProduct(int productId, ProductUpdateRequest request);
 
         Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId);
 

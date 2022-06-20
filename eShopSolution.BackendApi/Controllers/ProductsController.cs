@@ -120,6 +120,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPut]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UpdateProduct([FromForm] ProductUpdateRequest request)
         {
             try

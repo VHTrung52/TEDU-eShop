@@ -30,7 +30,22 @@ namespace eShopSolution.BackendApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"Exception in BackendApi\\CategoriesController\\GetAll");
+                logger.LogError(ex, $"Exception in BackendApi\\CategoriesController\\GetAllCategories");
+                return ServerError();
+            }
+        }
+
+        [HttpGet("{categoryId}/{languageId}")]
+        public async Task<IActionResult> GetCategoryById(int categoryId, string languageId)
+        {
+            try
+            {
+                var response = await _categoryService.GetCategoryById(categoryId, languageId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, $"Exception in BackendApi\\CategoriesController\\GetCategoryById");
                 return ServerError();
             }
         }

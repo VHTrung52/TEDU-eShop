@@ -33,5 +33,24 @@ namespace eShopSolution.Application.Catalog.Categories
 
             return new ApiSuccessResult<List<CategoryViewModel>>(data);
         }
+
+        public async Task<CategoryViewModel> GetCategoryById(int categoryId, string languageId)
+        {
+            var query = from categories in DbContext.Categories
+                        join categoryTranslations in DbContext.CategoryTranslations
+                            on categories.Id equals categoryTranslations.CategoryId
+                        where categoryTranslations.LanguageId == languageId
+                        && categories.Id == categoryId
+                        select new { categories, categoryTranslations };
+
+            var data = await query.Select(x => new CategoryViewModel()
+            {
+                Id = x.categories.Id,
+                Name = x.categoryTranslations.Name,
+                ParentId = x.categories.ParentId
+            }).FirstOrDefaultAsync();
+
+            return data;
+        }
     }
 }

@@ -131,15 +131,14 @@ namespace eShopSolution.Application.Catalog.Products
             }
         }
 
-        public async Task<ApiResult<int>> DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
             var product = await DbContext.Products.FindAsync(productId);
             if (product == null)
-                return new ApiErrorResult<int>($"Cannot find product: {productId}");
+                return false;
 
             DbContext.Products.Remove(product);
-            var result = await DbContext.SaveChangesAsync();
-            return new ApiSuccessResult<int>(result);
+            return await DbContext.SaveChangesAsync() > 0;
         }
 
         public async Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPaging(GetManageProductPagingRequest request)
@@ -152,13 +151,18 @@ namespace eShopSolution.Application.Catalog.Products
                 join productInCategory in DbContext.ProductInCategories
                     on product.Id equals productInCategory.ProductId into productProductInCategory
                 from productInCategory in productProductInCategory.DefaultIfEmpty()
+                //join productImage in DbContext.ProductImages
+                //    on product.Id equals productImage.ProductId into productProductImage
+                //from productImage in productProductImage.DefaultIfEmpty()
                 where
                     (productTranslation.LanguageId == request.LanguageId)
+                    //&& productImage.IsDefault == true
                     && (!string.IsNullOrEmpty(request.Keyword) ? productTranslation.Name.Contains(request.Keyword) : true)
                     && ((request.CategoryId != null && request.CategoryId != 0) ? productInCategory.CategoryId == request.CategoryId : true)
-                select new { 
-                    product, 
-                    productTranslation
+                select new {
+                    product,
+                    productTranslation,
+                    //productImage
                 })
                 .Distinct()
                 .OrderBy(x => x.product).ThenBy(y => y.productTranslation);
@@ -183,6 +187,7 @@ namespace eShopSolution.Application.Catalog.Products
                     SeoTitle = x.productTranslation.SeoTitle,
                     Stock = x.product.Stock,
                     ViewCount = x.product.ViewCount,
+                    //ThumbnailImagePath = x.productImage.ImagePath
                 })
                 //.Where(y => Categories == request.CategoryId)
                 .ToListAsync();
@@ -228,15 +233,16 @@ namespace eShopSolution.Application.Catalog.Products
             return new ApiSuccessResult<PagedResult<ProductViewModel>>(pagedResult);
         }
 
-        public async Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId)
+        public async Task<ProductViewModel> GetProductById(int productId, string languageId)
         {
             var product = await DbContext.Products.FindAsync(productId);
             if (product == null)
             {
-                return new ApiErrorResult<ProductViewModel>("Sản phẩm không tồn tại");
+                return null;
             }
 
-            var productTranslation = await DbContext.ProductTranslations.FirstOrDefaultAsync(x => x.ProductId == productId && x.LanguageId == languageId);
+            var productTranslation = await DbContext.ProductTranslations.FirstOrDefaultAsync(
+                x => x.ProductId == productId && x.LanguageId == languageId);
 
             var categories = await (
                 from c in DbContext.Categories
@@ -244,11 +250,14 @@ namespace eShopSolution.Application.Catalog.Products
                     on c.Id equals ct.CategoryId
                 join pic in DbContext.ProductInCategories
                     on c.Id equals pic.CategoryId
+
                 where
                     pic.ProductId == productId
                     && ct.LanguageId == languageId
                 select ct.Name
                 ).ToListAsync();
+
+            var productImage = await DbContext.ProductImages.FirstOrDefaultAsync(x => x.ProductId == productId);
 
             var productViewModel = new ProductViewModel()
             {
@@ -265,10 +274,11 @@ namespace eShopSolution.Application.Catalog.Products
                 SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null,
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
+                ThumbnailImagePath = productImage != null ? _storageService.GetFileUrl(productImage.ImagePath) : "no-image",
                 Categories = categories
             };
 
-            return new ApiSuccessResult<ProductViewModel>(productViewModel);
+            return productViewModel;
         }
 
         public async Task<ApiResult<ProductImageViewModel>> GetImageById(int imageId)
@@ -343,8 +353,22 @@ namespace eShopSolution.Application.Catalog.Products
                     thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
                     DbContext.ProductImages.Update(thumbnailImage);
                 }
+                else
+                {
+                    product.ProductImages = new List<ProductImage>()
+                    {
+                        new ProductImage()
+                        {
+                            Caption = "Thumbnail image",
+                            DateCreated = DateTime.Now,
+                            FileSize = request.ThumbnailImage.Length,
+                            ImagePath = await this.SaveFile(request.ThumbnailImage),
+                            IsDefault = true,
+                            SortOrder = 1
+                        }
+                    };
+                }             
             }
-
             return await DbContext.SaveChangesAsync();
         }
 
@@ -496,6 +520,7 @@ namespace eShopSolution.Application.Catalog.Products
                     productTranslations.LanguageId == languageId
                     && (productImages == null || productImages.IsDefault == true)
                     && products.IsFeatured == true
+                    //&& productImages.IsDefault == true
                 select new
                 {
                     products,
@@ -519,7 +544,7 @@ namespace eShopSolution.Application.Catalog.Products
                     SeoTitle = x.productTranslations.SeoTitle,
                     Stock = x.products.Stock,
                     ViewCount = x.products.ViewCount,
-                    ThumbnailImagePath = x.productImages.ImagePath
+                    ThumbnailImagePath = _storageService.GetFileUrl(x.productImages.ImagePath)
                 }
             ).ToListAsync();
 
@@ -562,8 +587,8 @@ namespace eShopSolution.Application.Catalog.Products
                     SeoTitle = x.productTranslations.SeoTitle,
                     Stock = x.products.Stock,
                     ViewCount = x.products.ViewCount,
-                    ThumbnailImagePath = x.productImages.ImagePath
-                }
+                    ThumbnailImagePath = _storageService.GetFileUrl(x.productImages.ImagePath)
+            }
             ).ToListAsync();
 
             return result;

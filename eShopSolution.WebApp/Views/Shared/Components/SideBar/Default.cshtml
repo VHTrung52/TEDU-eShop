@@ -1,7 +1,7 @@
 ﻿@model List<eShopSolution.ViewModels.Catalog.Categories.CategoryViewModel>
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _loc;
 @{
-    var culture = CultureInfo.CurrentCulture.Name;
+    var languageId = CultureInfo.CurrentCulture.Name;
 }
 <div id="sidebar" class="span3">
     <div class="well well-small">
@@ -28,14 +28,14 @@
                     <ul>
                         @foreach (var item in children)
                         {
-                            <li><a class="active" href="/@culture/@_loc["categoryUrl"]/@item.Id"><i class="icon-chevron-right"></i>@item.Name</a></li>
+                            <li><a class="active" href="/@languageId/@_loc["categoryUrl"]/@item.Id"><i class="icon-chevron-right"></i>@item.Name</a></li>
                         }
                     </ul>
                 </li>
             }
             else
             {
-                <li><a class="active" href="/@culture/@_loc["categoryUrl"]/@parent.Id"><i class="icon-chevron-right"></i>@parent.Name</a></li>
+                <li><a class="active" href="/@languageId/@_loc["categoryUrl"]/@parent.Id"><i class="icon-chevron-right"></i>@parent.Name</a></li>
             }
         }
     </ul>

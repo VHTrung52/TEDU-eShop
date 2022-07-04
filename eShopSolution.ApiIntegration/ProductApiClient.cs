@@ -62,9 +62,9 @@ namespace eShopSolution.ApiIntegration
             //return await ReturnResultAsync<ApiResult<bool>>(response);
         }
 
-        public Task<ApiResult<bool>> DeleteProduct(int productId)
+        public async Task<bool> DeleteProduct(int productId)
         {
-            throw new NotImplementedException();
+            return await DeleteAsync<bool>($"/api/products/{productId}");
         }
 
         public async Task<List<ProductViewModel>> GetFeaturedProducts(string languageId, int take)
@@ -74,9 +74,9 @@ namespace eShopSolution.ApiIntegration
             return data;
         }
 
-        public async Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId)
+        public async Task<ProductViewModel> GetProductById(int productId, string languageId)
         {
-            return await GetAsync<ApiResult<ProductViewModel>>($"/api/products/{productId}/{languageId}");
+            return await GetAsync<ProductViewModel>($"/api/products/{productId}/{languageId}");
         }
 
         public async Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPaging(GetManageProductPagingRequest request)

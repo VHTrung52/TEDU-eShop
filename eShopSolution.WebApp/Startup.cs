@@ -31,6 +31,7 @@ namespace eShopSolution.WebApp
         {
             services.AddHttpClient();
 
+            //culture = languageId
             var cultures = new[]
             {
                 new CultureInfo("vi"),
@@ -107,43 +108,43 @@ namespace eShopSolution.WebApp
             {
                 endpoints.MapControllerRoute(
                     name: "Product Category En",
-                    pattern: "{culture}/categories/{id}",
+                    pattern: "{languageId}/categories/{id}",
                     new
                     {
                         controller = "Products",
-                        action = "GetProductsByCategory"
+                        action = "Category"
                     });
 
                 endpoints.MapControllerRoute(
                     name: "Product Category Vi",
-                    pattern: "{culture}/danh-muc/{id}",
+                    pattern: "{languageId}/danh-muc/{id}",
                     new
                     {
                         controller = "Products",
-                        action = "GetProductsByCategory"
+                        action = "Category"
                     });
 
                 endpoints.MapControllerRoute(
                     name: "Product Detail En",
-                    pattern: "{culture}/products/{id}",
+                    pattern: "{languageId}/products/{id}",
                     new
                     {
                         controller = "Products",
-                        action = "GetProductDetail"
+                        action = "Detail"
                     });
 
                 endpoints.MapControllerRoute(
                     name: "Product Detail Vi",
-                    pattern: "{culture}/san-pham/{id}",
+                    pattern: "{languageId}/san-pham/{id}",
                     new
                     {
                         controller = "Products",
-                        action = "GetProductDetail"
+                        action = "Detail"
                     });
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{culture=vi}/{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{languageId=vi}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

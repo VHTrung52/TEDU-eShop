@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace eShopSolution.AdminApp.Controllers.Components
+namespace eShopSolution.WebApp.Controllers.Components
 {
     public class PagerViewComponent : ViewComponent
     {

@@ -1,8 +1,9 @@
 ﻿@model HomeViewModel
 @using eShopSolution.ViewModels.Catalog.Products
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _local;
+
 @{
-    var culture = CultureInfo.CurrentCulture.Name;
+    var languageId = CultureInfo.CurrentCulture.Name;
 }
 @{
     ViewData["Title"] = "Home Page";
@@ -57,7 +58,7 @@
                         <ul class="thumbnails">
                             @foreach(var item in featuredProducts[i])
                             {
-                                var url = $"/{culture}/{_local["productUrl"]}/{item.Id}";
+                                var url = $"/{languageId}/{_local["productUrl"]}/{item.Id}";
                                 <li class="span3">
                                     <div class="thumbnail">
                                         <i class="tag"></i>
@@ -65,7 +66,7 @@
                                         <div class="caption">
                                             <h5>@item.Name</h5>
                                             <h4>
-                                                <a class="btn" href="" localize-content>VIEW</a> 
+                                                <a class="btn" href="@url" localize-content>VIEW</a> 
                                                 <span class="pull-right">@item.Price.ToString()</span>
                                             </h4>
                                         </div>
@@ -85,7 +86,7 @@
 <ul class="thumbnails">
     @foreach(var item in Model.LastestProducts)
     {
-        var url = $"/{culture}/{_local["productUrl"]}/{item.Id}";
+        var url = $"/{languageId}/{_local["productUrl"]}/{item.Id}";
         <li class="span3">
             <div class="thumbnail">
                 <a href="@url"><img src="@item.ThumbnailImagePath" alt="@item.Name" /></a>

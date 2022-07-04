@@ -1,5 +1,6 @@
 ﻿@using eShopSolution.ViewModels.Common;
-@model PagedResult<eShopSolution.ViewModels.Catalog.Products.ProductViewModel>
+@using eShopSolution.ViewModels.Catalog.Products;
+@model PagedResult<ProductViewModel>
 
 @{
     ViewData["Title"] = "Danh sách sản phẩm";
@@ -23,20 +24,20 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-5 col-xs-12">
-                    <a class="btn btn-success" asp-action="CreateProduct" asp-controller="Products">Tạo mới</a>
+                    <a class="btn btn-success" asp-action="Create" asp-controller="Products">Tạo mới</a>
                 </div>
                 <div class="col-md-7 col-xs-12">
                     <form asp-action="Index" method="get">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-right">
                                 <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4 text-right">
                                 <select name="categoryId" onchange="this.form.submit()" asp-items="@ViewBag.Categories" class="form-control">
                                     <option>Tất cả</option>
                                 </select>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4 text-right">
                                 <button type="submit" class="btn btn-primary">Tìm</button>
                                 <button type="button" onclick="window.location.href='/Products/Index'" class="btn btn-dark">Reset</button>
                             </div>
@@ -146,7 +147,7 @@
                                     end = Model.TotalRecords;
                                 }
                             }                   
-                            <p>Showing @start to @end of @Model.TotalRecords products</p>
+                            <p>Showing @start to @end of @Model.TotalRecords results</p>
                         </div>
                         <div class="col-md-6 col-xs-12">
                             @await Component.InvokeAsync("Pager", Model)

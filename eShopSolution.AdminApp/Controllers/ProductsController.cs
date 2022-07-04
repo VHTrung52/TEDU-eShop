@@ -97,16 +97,16 @@ namespace eShopSolution.AdminApp.Controllers
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
 
-            var response = await _productApiClient.GetProductById(id, languageId);
+            var product = await _productApiClient.GetProductById(id, languageId);
             var request = new ProductUpdateRequest()
             {
-                Id = response.ResultObj.Id,
-                Description = response.ResultObj.Description,
-                Details = response.ResultObj.Details,
-                Name = response.ResultObj.Name,
-                SeoAlias = response.ResultObj.SeoAlias,
-                SeoDescription = response.ResultObj.SeoDescription,
-                SeoTitle = response.ResultObj.SeoTitle,
+                Id = product.Id,
+                Description = product.Description,
+                Details = product.Details,
+                Name = product.Name,
+                SeoAlias = product.SeoAlias,
+                SeoDescription = product.SeoDescription,
+                SeoTitle = product.SeoTitle,
             };
             return View(request);
         }
@@ -132,32 +132,29 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(Guid id)
+        public IActionResult Delete(int id)
         {
-            /*            return View(new Produc()
-                        {
-                            Id = id
-                        });
-            return View();*/
-            throw new NotImplementedException();
+            return View(new ProductDeleteRequest()
+            {
+                ProductId = id
+            });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(ProductUpdateRequest request)
+        public async Task<IActionResult> Delete(ProductDeleteRequest request)
         {
-            /*if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View();
 
-            var result = await _userApiClient.Delete(request.Id);
-            if (result.IsSuccessed)
+            var result = await _productApiClient.DeleteProduct(request.ProductId);
+            if (result)
             {
                 TempData["result"] = "Xoá người dùng thành công";
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", result.Message);
-            return View(request);*/
-            throw new NotImplementedException();
+            ModelState.AddModelError("", "Xoá sản phẩm không thành công");
+            return View(request);
         }
 
         [HttpGet]
@@ -189,7 +186,7 @@ namespace eShopSolution.AdminApp.Controllers
         {
             var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
             //productObj
-            var productApiResponse = await _productApiClient.GetProductById(productId, languageId);
+            var product = await _productApiClient.GetProductById(productId, languageId);
             //categoryObj
             var categoryApiResponse = await _categoryApiClient.GetAllCategories(languageId);
 
@@ -200,7 +197,7 @@ namespace eShopSolution.AdminApp.Controllers
                 {
                     Id = category.Id.ToString(),
                     Name = category.Name,
-                    IsSelected = productApiResponse.ResultObj.Categories.Contains(category.Name)
+                    IsSelected = product.Categories.Contains(category.Name)
                 });
             }
 

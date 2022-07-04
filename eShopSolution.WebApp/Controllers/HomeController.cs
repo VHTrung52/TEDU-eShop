@@ -28,16 +28,16 @@ namespace eShopSolution.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var culture = CultureInfo.CurrentCulture.Name;
-            var viewModel = new HomeViewModel()
+            var languageId = CultureInfo.CurrentCulture.Name;
+            var model = new HomeViewModel()
             {
                 Slides = await _slideApiClient.GetAllSlide(),
-                FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
-                LastestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts)
+                FeaturedProducts = await _productApiClient.GetFeaturedProducts(languageId, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
+                LastestProducts = await _productApiClient.GetLatestProducts(languageId, SystemConstants.ProductSettings.NumberOfLatestProducts)
 
             };
 
-            return View(viewModel);
+            return View(model);
         }
 
         public IActionResult Privacy()
@@ -53,6 +53,7 @@ namespace eShopSolution.WebApp.Controllers
 
         public IActionResult SetCultureCookie(string cltr, string returnUrl)
         {
+            //culture = languageId
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cltr)),

@@ -11,7 +11,7 @@ namespace eShopSolution.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    
     public class ProductsController : BaseController
     {
         private readonly IProductService _productService;
@@ -53,9 +53,6 @@ namespace eShopSolution.BackendApi.Controllers
             try
             {
                 var response = await _productService.GetProductById(productId, languageId);
-
-                if (!response.IsSuccessed)
-                    return BadRequest(response);
 
                 return Ok(response);
             }
@@ -100,6 +97,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPost]
         [Consumes("multipart/form-data")]
+        [Authorize]
         public async Task<IActionResult> CreateProduct([FromForm] ProductCreateRequest request)
         {
             try
@@ -121,6 +119,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         [HttpPut]
         [Consumes("multipart/form-data")]
+        [Authorize]
         public async Task<IActionResult> UpdateProduct([FromForm] ProductUpdateRequest request)
         {
             try
@@ -145,13 +144,14 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpDelete("{productId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProduct(int productId)
         {
             try
             {
                 var response = await _productService.DeleteProduct(productId);
 
-                if (!response.IsSuccessed)
+                if (!response)
                     return BadRequest(response);
 
                 return Ok(response);
@@ -164,6 +164,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPatch("{productId}/{newPrice}")]
+        [Authorize]
         public async Task<IActionResult> UpdateProductPrice(int productId, decimal newPrice)
         {
             try
@@ -184,6 +185,7 @@ namespace eShopSolution.BackendApi.Controllers
 
         //Images
         [HttpPost("{productId}/images")]
+        [Authorize]
         public async Task<IActionResult> CreateProductImage(int productId, [FromForm] ProductImageCreateRequest request)
         {
             try
@@ -208,6 +210,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPut("{productId}/images/{imageId}")]
+        [Authorize]
         public async Task<IActionResult> UpdateImage(int imageId, [FromForm] ProductImageUpdateRequest request)
         {
             try
@@ -232,6 +235,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpDelete("{productId}/images/{imageId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteImage(int imageId)
         {
             try
@@ -274,6 +278,7 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpPut("{productId}/categories")]
+        [Authorize]
         public async Task<IActionResult> CategoryAssign(int productId, [FromBody] CategoryAssignRequest request)
         {
             try

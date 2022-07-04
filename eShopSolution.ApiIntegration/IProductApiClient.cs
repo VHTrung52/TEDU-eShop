@@ -11,9 +11,9 @@ namespace eShopSolution.ApiIntegration
 
         Task<bool> UpdateProduct(int productId, ProductUpdateRequest request);
 
-        Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId);
+        Task<ProductViewModel> GetProductById(int productId, string languageId);
 
-        Task<ApiResult<bool>> DeleteProduct(int productId);
+        Task<bool> DeleteProduct(int productId);
 
         Task<bool> CreateProduct(ProductCreateRequest request);
 

@@ -12,7 +12,7 @@ namespace eShopSolution.Application.Catalog.Products
 
         Task<int> UpdateProduct(ProductUpdateRequest request);
 
-        Task<ApiResult<int>> DeleteProduct(int productId);
+        Task<bool> DeleteProduct(int productId);
 
         Task<bool> UpdateProductPrice(int productId, decimal newPrice);
 
@@ -22,7 +22,7 @@ namespace eShopSolution.Application.Catalog.Products
 
         Task<ApiResult<PagedResult<ProductViewModel>>> GetProductPaging(GetManageProductPagingRequest request);
 
-        Task<ApiResult<ProductViewModel>> GetProductById(int productId, string languageId);
+        Task<ProductViewModel> GetProductById(int productId, string languageId);
 
         Task<int> AddProductImage(int productId, ProductImageCreateRequest request);
 

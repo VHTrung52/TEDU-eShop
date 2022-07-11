@@ -157,6 +157,10 @@
     <value>Đăng Nhập</value>
     <comment>Views/Shared/_layout.cshtml</comment>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Đăng xuất</value>
+    <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
   <data name="More Details" xml:space="preserve">
     <value>Chi tiết</value>
     <comment>Views/Products/Detail.cshtml</comment>

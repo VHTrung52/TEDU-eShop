@@ -34,30 +34,62 @@
     <style type="text/css" id="enject"></style>
 </head>
 <body>
+    <!-- Header End====================================================================== -->
     <div id="header">
-        <div class="container">
-            <div id="welcomeLine" class="row">
-                <div class="span6">Welcome!<strong> User</strong></div>
-                <div class="span6">
+        <div class="container"> 
+            <!-- WelcomeLine Start======================================== -->
+            <div id="welcomeLine" style="padding-bottom:0px;padding-top:0px">
+                <div class="navbar-inner" style="padding-top:10px">    
                     <div class="pull-right">
-                        <language-nav 
-                            cookie-handler-url="@Url.Action("SetCultureCookie", "Home", new { area="", cltr="{0}", returnUrl="{1}"})">
-                        </language-nav>
-                        <a href="product_summary.html">
-                            <span class="btn btn-mini btn-primary">
-                                <i class="icon-shopping-cart icon-white"></i> [ 3 ] Itemes in your cart 
-                            </span> 
-                        </a>
+                        @if(User.Identity.IsAuthenticated)
+                        {
+                            <form action="/@languageId/Accounts/Logout" method="post">
+                                <button type="submit" style="background:transparent; border:none">
+                                    <span class="btn btn-success">
+                                        <localize>Logout</localize>
+                                    </span>
+                                </button>    
+                            </form>
+                            @*<a href="/@languageId/Accounts/Logout" style="padding-right:0">
+                                <span class="btn btn-success">
+                                    <localize>Logout</localize>
+                                </span>
+                            </a>*@
+                        }
+                        else
+                        {
+                            <form action="/@languageId/Accounts/Login">
+                                <button type="submit" style="background:transparent; border:none">
+                                    <span class="btn btn-success">
+                                        <localize>Login</localize>
+                                    </span>
+                                </button>    
+                            </form>
+                            @*<a href="/@languageId/Accounts/Login" style="padding-right:0">
+                                <span class="btn btn-success">
+                                    <localize>Login</localize>
+                                </span>
+                            </a>*@
+                        }  
+                    </div> 
+                    <div class="pull-right" style="padding-right:10px">
+                        <language-nav class="dropdown btn" cookie-handler-url="@Url.Action("SetCultureCookie", "Home", new { area="", cltr="{0}", returnUrl="{1}"})"></language-nav>
+                    </div>
+                    <div class="pull-right" style="padding: 4px 12px; color:white">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <strong>Welcome @User.Identity.Name</strong>
+                        }
+                        else
+                        {
+                            <strong>Welcome Guest</strong>
+                        }
                     </div>
                 </div>
             </div>
-            <!-- Navbar ================================================== -->
-            <div id="logoArea" class="navbar">
-                <a id="smallScreen" data-target="#topMenu" data-toggle="collapse" class="btn btn-navbar">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
+            <!-- WelcomeLine End========================================== -->
+            <!-- Navbar Start============================================= -->
+            <div id="logoArea" class="navbar" style="margin-bottom:0;">
                 <div class="navbar-inner">
                     <a class="brand" href="/"><img src="/themes/images/logo.png" alt="Bootsshop" /></a>
                     <form class="form-inline navbar-search" method="post" action="products.html">
@@ -76,41 +108,24 @@
                         <li class=""><a asp-route-culture="@languageId" localize-content>Specials Offer</a></li>
                         <li class=""><a asp-route-culture="@languageId" localize-content>Delivery</a></li>
                         <li class=""><a asp-route-culture="@languageId" localize-content>Contact</a></li>
-                        <li class="">
+                        <li class="">  
                             <a href="#login" role="button" data-toggle="modal" style="padding-right:0">
-                                <span class="btn btn-large btn-success">
-                                    <localize>
-                                        Login
-                                    </localize>
+                                <span class="btn btn-large btn-primary">
+                                    <i class="icon-shopping-cart icon-white"></i> [ 3 ]
                                 </span>
                             </a>
-                            <div id="login" class="modal hide fade in" tabindex="-1" role="dialog" aria-labelledby="login" aria-hidden="false">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h3>Login Block</h3>
-                                </div>
-                                <div class="modal-body">
-                                    <form class="form-horizontal loginFrm">
-                                        <div class="control-group">
-                                            <input type="text" id="inputEmail" placeholder="Email">
-                                        </div>
-                                        <div class="control-group">
-                                            <input type="password" id="inputPassword" placeholder="Password">
-                                        </div>
-                                        <div class="control-group">
-                                            <label class="checkbox">
-                                                <input type="checkbox"> Remember me
-                                            </label>
-                                        </div>
-                                    </form>
-                                    <button type="submit" class="btn btn-success">Sign in</button>
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                </div>
-                            </div>
+                            @*<div class="pull-right" style="margin-right:10px">
+                                <a href="product_summary.html">
+                                    <span class="btn btn-primary">
+                                        <i class="icon-shopping-cart icon-white"></i> [ 3 ] 
+                                    </span> 
+                                </a>
+                            </div> *@
                         </li>
                     </ul>
                 </div>
             </div>
+            <!-- Navbar End=============================================== -->      
         </div>
     </div>
     <!-- Header End====================================================================== -->
@@ -120,7 +135,7 @@
             <div class="row">
                 <!-- Sidebar ================================================== -->
                 @await Component.InvokeAsync("SideBar")
-                <!-- Sidebar end=============================================== -->
+                <!-- Sidebar End=============================================== -->
                 <div class="span9">
                     @RenderBody()
                 </div>

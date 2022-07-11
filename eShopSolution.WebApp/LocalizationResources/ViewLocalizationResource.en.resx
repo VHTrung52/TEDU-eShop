@@ -161,6 +161,10 @@
     <value>Login</value>
     <comment>Views/Shared/_layout.cshtml</comment>
   </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
+    <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
   <data name="More Details" xml:space="preserve">
     <value>More Details</value>
     <comment>Views/Products/Detail.cshtml</comment>

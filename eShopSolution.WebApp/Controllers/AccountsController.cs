@@ -14,14 +14,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.AdminApp.Controllers
+namespace eShopSolution.WebApp.Controllers
 {
-    public class LoginController : Controller
+    public class AccountsController : Controller
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
 
-        public LoginController(
+        public AccountsController(
             IUserApiClient userApiClient,
             IConfiguration configuration)
         {
@@ -30,14 +30,13 @@ namespace eShopSolution.AdminApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Login()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(LoginRequest request)
+        public async Task<IActionResult> LoginAsync(LoginRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -57,7 +56,7 @@ namespace eShopSolution.AdminApp.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
                 IsPersistent = false,
             };
-            //HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
+            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
             HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
@@ -83,6 +82,13 @@ namespace eShopSolution.AdminApp.Controllers
             ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
 
             return principal;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

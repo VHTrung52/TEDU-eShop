@@ -91,7 +91,8 @@ namespace eShopSolution.ApiIntegration
                 return result;
             }
             else
-                return default;
+                throw new Exception(response.Content.ToString());
+               
         }
     }
 }

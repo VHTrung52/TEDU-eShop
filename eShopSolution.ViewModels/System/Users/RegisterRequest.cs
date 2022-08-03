@@ -1,11 +1,14 @@
-﻿using System;
+﻿using LazZiya.ExpressLocalization.DataAnnotations;
+using System;
 using System.ComponentModel.DataAnnotations;
+
 
 namespace eShopSolution.ViewModels.System.Users
 {
     public class RegisterRequest
     {
-        [Display(Name = "Tên")]
+        //[ExRequired]
+        [Display(Name = "Tên")]      
         public string FirstName { get; set; }
 
         [Display(Name = "Họ")]

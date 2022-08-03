@@ -8,12 +8,15 @@ using eShopSolution.Application.Utilities.Slides;
 using eShopSolution.Data.EF;
 using eShopSolution.Data.Entities;
 using eShopSolution.Utilities.Constants;
+using eShopSolution.Utilities.LocalizationResources;
 using eShopSolution.ViewModels.System.Users;
 using FluentValidation.AspNetCore;
+using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +24,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace eShopSolution.BackendApi
 {
@@ -59,9 +63,43 @@ namespace eShopSolution.BackendApi
 
             //services.AddTransient<IValidator<LoginRequest>, LoginRequestValidator>();
             //services.AddTransient<IValidator<RegisterRequest>, RegisterRequestValidator>();
+            var cultures = new[]
+            {
+                new CultureInfo("vi"),
+                new CultureInfo("en"),
+            };
 
             services.AddControllers()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+                .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
+                {
+                    // When using all the culture providers, the localization process will
+                    // check all available culture providers in order to detect the request culture.
+                    // If the request culture is found it will stop checking and do localization accordingly.
+                    // If the request culture is not found it will check the next provider by order.
+                    // If no culture is detected the default culture will be used.
+
+                    // Checking order for request culture:
+                    // 1) RouteSegmentCultureProvider
+                    //      e.g. http://localhost:1234/tr
+                    // 2) QueryStringCultureProvider
+                    //      e.g. http://localhost:1234/?culture=tr
+                    // 3) CookieCultureProvider
+                    //      Determines the culture information for a request via the value of a cookie.
+                    // 4) AcceptedLanguageHeaderRequestCultureProvider
+                    //      Determines the culture information for a request via the value of the Accept-Language header.
+                    //      See the browsers language settings
+
+                    // Uncomment and set to true to use only route culture provider
+                    ops.UseAllCultureProviders = false;
+                    ops.ResourcesPath = "LocalizationResources";
+                    ops.RequestLocalizationOptions = o =>
+                    {
+                        o.SupportedCultures = cultures;
+                        o.SupportedUICultures = cultures;
+                        o.DefaultRequestCulture = new RequestCulture("vi");
+                    };
+                });
 
             services.AddSwaggerGen(c =>
             {

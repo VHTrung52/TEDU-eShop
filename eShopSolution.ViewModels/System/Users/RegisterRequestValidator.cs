@@ -1,14 +1,19 @@
 ﻿using FluentValidation;
+using LazZiya.ExpressLocalization;
 using System;
 
 namespace eShopSolution.ViewModels.System.Users
 {
+
     public class RegisterRequestValidator : AbstractValidator<RegisterRequest>
     {
-        public RegisterRequestValidator()
+        private readonly ISharedCultureLocalizer _localizer;
+        public RegisterRequestValidator(ISharedCultureLocalizer localizer)
         {
-            RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required")
-                .MaximumLength(200).WithMessage("First name can not over 200 characters");
+            _localizer = localizer;
+            RuleFor(x => x.FirstName).NotEmpty().WithMessage(x => _localizer.GetLocalizedString("Test"));
+            //.WithMessage("First name is required");
+            //.MaximumLength(200).WithMessage("First name can not over 200 characters");
 
             RuleFor(x => x.LastName).NotEmpty().WithMessage("Last name is required")
                 .MaximumLength(200).WithMessage("Last name is at over 200 characters");

@@ -1,0 +1,85 @@
+﻿@using LazZiya.ExpressLocalization.DataAnnotations;
+@model eShopSolution.ViewModels.System.Users.RegisterRequest
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+	var languageId = System.Globalization.CultureInfo.CurrentCulture.Name;
+}
+
+<ul class="breadcrumb">
+	<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+	<li class="active">Registration</li>
+</ul>
+
+<h3>Registration</h3>	
+
+<div class="well">
+	<form asp-action="Register" asp-controller="Accounts" method="post" class="form-horizontal" >
+		<h4>Your personal information</h4>
+
+		<div asp-validation-summary="All" class="text-error">
+			<button type="button" class="close" data-dismiss="alert">x</button>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputFname1">First name <sup>*</sup></label>
+			<div class="controls">
+				<input type="text" asp-for="FirstName" placeholder="First Name">
+				<span asp-validation-for="FirstName" class="text-error"></span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="inputLnam">Last name <sup>*</sup></label>
+			<div class="controls">
+				<input type="text" asp-for="LastName" placeholder="Last Name">
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="input_email">Date <sup>*</sup></label>
+			<div class="controls">
+				<input type="date" asp-for="Dob" >
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="input_email">Email <sup>*</sup></label>
+			<div class="controls">
+				<input type="email" asp-for="Email" placeholder="Email">
+			</div>
+		</div>	  
+		<div class="control-group">
+			<label class="control-label" for="input_email">User Name <sup>*</sup></label>
+			<div class="controls">
+				<input type="text" asp-for="UserName" placeholder="User Name">
+			</div>
+		</div>	
+		<div class="control-group">
+			<label class="control-label" for="inputPassword1">Password <sup>*</sup></label>
+			<div class="controls">
+				<input type="password" asp-for="Password" placeholder="Password">
+			</div>
+		</div>	  
+		<div class="control-group">
+			<label class="control-label" for="inputPassword1">Confirm password <sup>*</sup></label>
+			<div class="controls">
+				<input type="password" asp-for="ConfirmPassword" placeholder="Confirm Password">
+			</div>
+		</div>	
+		
+		<div class="control-group">
+			<label class="control-label" for="mobile">Phone Number</label>
+			<div class="controls">
+				<input type="number"  asp-for="PhoneNumber" placeholder="Phone Number"/> 
+			</div>
+		</div>
+		
+		<p><sup>*</sup>Required field	</p>
+	
+		<div class="control-group">
+			<div class="controls">
+				@*<input type="hidden" name="email_create" value="1">
+				<input type="hidden" name="is_new_customer" value="1">*@
+				<input class="btn btn-large btn-success" type="submit" value="Register" />
+			</div>
+		</div>		
+	</form>
+</div>
+

@@ -90,5 +90,58 @@ namespace eShopSolution.WebApp.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register (RegisterRequest request)
+        {
+
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(request);
+                }
+
+                var result = await _userApiClient.RegiterUser(request);
+
+                if (!result.IsSuccessed)
+                {
+                    ModelState.AddModelError("", "Register account failed");
+                    return View(request);
+                }
+
+                var loginResult = await _userApiClient.Authenticate(new LoginRequest()
+                {
+                    UserName = request.UserName,
+                    Password = request.Password,
+                    RememberMe = true
+                });
+
+                var userPrincipal = this.ValidateToken(loginResult.ResultObj);
+                var authProperties = new AuthenticationProperties
+                {
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                    IsPersistent = false,
+                };
+                HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
+                HttpContext.Session.SetString(SystemConstants.AppSettings.Token, loginResult.ResultObj);
+                await HttpContext.SignInAsync(
+                    CookieAuthenticationDefaults.AuthenticationScheme,
+                    userPrincipal,
+                    authProperties);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("", ex.Message);
+                return View();
+            }
+        }
     }
 }

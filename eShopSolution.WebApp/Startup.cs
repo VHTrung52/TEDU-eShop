@@ -1,20 +1,18 @@
 using eShopSolution.ApiIntegration;
-using eShopSolution.WebApp.LocalizationResources;
+using eShopSolution.Utilities.LocalizationResources;
+using eShopSolution.ViewModels.System.Users;
+using FluentValidation.AspNetCore;
 using LazZiya.ExpressLocalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace eShopSolution.WebApp
 {
@@ -47,6 +45,7 @@ namespace eShopSolution.WebApp
             };
 
             services.AddControllersWithViews()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
                 .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
                 {
                     // When using all the culture providers, the localization process will
@@ -76,10 +75,18 @@ namespace eShopSolution.WebApp
                         o.DefaultRequestCulture = new RequestCulture("vi");
                     };
                 });
+
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
+            //services.AddMvc()
+            //    .AddDataAnnotationsLocalization(options => {
+            //        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            //            factory.Create(typeof(ViewLocalizationResource));
+            //    });
+
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<ISlideApiClient, SlideApiClient>();

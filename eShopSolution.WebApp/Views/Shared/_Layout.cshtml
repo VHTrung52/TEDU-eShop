@@ -58,13 +58,20 @@
                         }
                         else
                         {
-                            <form action="/@languageId/Accounts/Login">
+                            <form class="pull-right" action="/@languageId/Accounts/Register">
+                                <button type="submit" style="background:transparent; border:none">
+                                    <span class="btn btn-primary">
+                                        <localize>Sign Up</localize>
+                                    </span>
+                                </button>    
+                            </form>
+                            <form class="pull-right" action="/@languageId/Accounts/Login">
                                 <button type="submit" style="background:transparent; border:none">
                                     <span class="btn btn-success">
                                         <localize>Login</localize>
                                     </span>
                                 </button>    
-                            </form>
+                            </form>                          
                             @*<a href="/@languageId/Accounts/Login" style="padding-right:0">
                                 <span class="btn btn-success">
                                     <localize>Login</localize>

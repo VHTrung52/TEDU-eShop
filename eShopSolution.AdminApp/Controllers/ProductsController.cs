@@ -29,7 +29,8 @@ namespace eShopSolution.AdminApp.Controllers
 
         public async Task<IActionResult> Index(string keyWord, int? categoryId, int pageIndex = 1, int pageSize = 5)
         {
-            var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            string defaultLanguageId = SystemConstants.AppSettings.DefaultLanguageId;
+            var languageId = HttpContext.Session.GetString(defaultLanguageId);
 
             var request = new GetManageProductPagingRequest()
             {

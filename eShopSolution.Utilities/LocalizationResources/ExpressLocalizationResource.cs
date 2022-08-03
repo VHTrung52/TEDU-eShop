@@ -1,4 +1,4 @@
-﻿namespace eShopSolution.WebApp.LocalizationResources
+﻿namespace eShopSolution.Utilities.LocalizationResources
 {
     public class ExpressLocalizationResource
     {

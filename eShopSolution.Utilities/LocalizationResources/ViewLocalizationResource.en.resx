@@ -189,6 +189,10 @@
     <value>Related Products</value>
     <comment>Views/Products/Detail.cshtml</comment>
   </data>
+  <data name="Sign Up" xml:space="preserve">
+    <value>Sign Up</value>
+    <comment>Views/Home/Index.cshtml</comment>
+  </data>
   <data name="Sort By" xml:space="preserve">
     <value>Sort By</value>
     <comment>Views/Products/Category.cshtml</comment>
@@ -196,6 +200,9 @@
   <data name="Specials Offer" xml:space="preserve">
     <value>Specials Offer</value>
     <comment>Views/Shared/_layout.cshtml</comment>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
   </data>
   <data name="Vietnamese" xml:space="preserve">
     <value>Vietnamese</value>

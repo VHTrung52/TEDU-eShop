@@ -18,16 +18,19 @@ namespace eShopSolution.WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ISlideApiClient _slideApiClient;
         private readonly IProductApiClient _productApiClient;
+        private readonly ISharedCultureLocalizer _localizer;
 
-        public HomeController(ILogger<HomeController> logger, ISlideApiClient slideApiClient, IProductApiClient productApiClient)
+        public HomeController(ILogger<HomeController> logger, ISlideApiClient slideApiClient, IProductApiClient productApiClient, ISharedCultureLocalizer localizer)
         {
             _logger = logger;
             _slideApiClient = slideApiClient;
             _productApiClient = productApiClient;
+            _localizer = localizer;
         }
 
         public async Task<IActionResult> Index()
         {
+            string s = _localizer.GetLocalizedString("Test");
             var languageId = CultureInfo.CurrentCulture.Name;
             var model = new HomeViewModel()
             {

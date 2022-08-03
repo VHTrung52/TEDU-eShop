@@ -47,7 +47,7 @@ namespace eShopSolution.ApiIntegration
 
         public async Task<ApiResult<bool>> RegiterUser(RegisterRequest request)
         {
-            return await PostWithoutTokenAsync<ApiResult<bool>, RegisterRequest>("/api/users/register", request);
+            return await PostWithoutTokenAsync<ApiResult<bool>, RegisterRequest>("/api/Users", request);
         }
 
         public async Task<ApiResult<bool>> RoleAssign(Guid userId, RoleAssignRequest request)

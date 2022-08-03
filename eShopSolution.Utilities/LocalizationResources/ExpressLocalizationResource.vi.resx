@@ -117,96 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add to" xml:space="preserve">
-    <value>Thêm vào </value>
-    <comment>Views/Home/Index.cshtml; Views/Products/Category.cshtml</comment>
+  <data name="First name is required" xml:space="preserve">
+    <value>{0} là bắt buộc</value>
   </data>
-  <data name="Add to cart" xml:space="preserve">
-    <value>Thêm vào giỏ hàng</value>
-    <comment>Views/Products/Detail.cshtml</comment>
+  <data name="Test" xml:space="preserve">
+    <value>Kiểm tra</value>
   </data>
-  <data name="available products" xml:space="preserve">
-    <value>sản phẩm có sẵn </value>
-    <comment>Views/Products/Category.cshtml</comment>
-  </data>
-  <data name="categoryUrl" xml:space="preserve">
-    <value>danh-muc</value>
-    <comment>Views/Shared/Components/SideBar/Default.cshtml</comment>
-  </data>
-  <data name="Contact" xml:space="preserve">
-    <value>Liên Hệ</value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="Delivery" xml:space="preserve">
-    <value>Giao Hàng</value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="English" xml:space="preserve">
-    <value>English</value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="Featured Products" xml:space="preserve">
-    <value>Sản Phẩm Nổi Bật</value>
-    <comment>Views/Home/Index.cshtml</comment>
-  </data>
-  <data name="Home" xml:space="preserve">
-    <value>Trang chủ</value>
-    <comment>Views/Products/Detail.cshtml</comment>
-  </data>
-  <data name="Login" xml:space="preserve">
-    <value>Đăng Nhập</value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="Logout" xml:space="preserve">
-    <value>Đăng xuất</value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="More Details" xml:space="preserve">
-    <value>Chi tiết</value>
-    <comment>Views/Products/Detail.cshtml</comment>
-  </data>
-  <data name="New | Available" xml:space="preserve">
-    <value>Có sẵn</value>
-    <comment>Views/Products/Category.cshtml</comment>
-  </data>
-  <data name="Page" xml:space="preserve">
-    <value>Trang</value>
-    <comment>Views/Products/Category.cshtml</comment>
-  </data>
-  <data name="Product Details" xml:space="preserve">
-    <value>Thông tin sản phẩm</value>
-    <comment>Views/Products/Detail.cshtml</comment>
-  </data>
-  <data name="productUrl" xml:space="preserve">
-    <value>san-pham</value>
-    <comment>Views/Home/Index.cshtml</comment>
-  </data>
-  <data name="Related Products" xml:space="preserve">
-    <value>Sản phẩm liên quan</value>
-    <comment>Views/Products/Detail.cshtml</comment>
-  </data>
-  <data name="Sort By" xml:space="preserve">
-    <value>sắp xếp theo</value>
-    <comment>Views/Products/Category.cshtml</comment>
-  </data>
-  <data name="Specials Offer" xml:space="preserve">
-    <value>Khuyến Mãi </value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="String1" xml:space="preserve">
-    <value>Sản phẩm mới nhất</value>
-    <comment>Views/Home/Index.cshtml</comment>
-  </data>
-  <data name="Vietnamese" xml:space="preserve">
-    <value>Tiếng Việt</value>
-    <comment>Views/Shared/_layout.cshtml</comment>
-  </data>
-  <data name="VIEW" xml:space="preserve">
-    <value>XEM</value>
-    <comment>Views/Home/Index.cshtml</comment>
-  </data>
-  <data name="View Details" xml:space="preserve">
-    <value>Xem chi tiết</value>
-    <comment>Views/Products/Category.cshtml</comment>
+  <data name="The {0} field is required." xml:space="preserve">
+    <value>{0} lĩnh vực là bắt buộc.</value>
   </data>
 </root>

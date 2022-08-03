@@ -42,7 +42,8 @@ namespace eShopSolution.BackendApi.Controllers
             }
         }
 
-        [HttpPost("register")]
+        //[HttpPost("register")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {

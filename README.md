@@ -1,8 +1,12 @@
 # ASP.NET Core 3.1 project from TEDU
 
 ## Technologies
-- ASP.NET Core 3.1
-- Entity Framework Core 3.1
+- ASP.NET Core 3.1, Dot Net Api, Dot Net MVC
+- Dependency Injection
+- JWT Token
+- Entity Framework Core 3.1, LINQ
+- SQL Server
+- LazZiya.ExpressLocalization, LazZiya.TagHelpers for multi-languages (English, Vietnamese)
 
 ## Tools Used
 - Dot NET Core SDK 3.1

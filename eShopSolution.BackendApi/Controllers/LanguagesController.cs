@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Threading.Tasks;
 
@@ -22,7 +23,14 @@ namespace eShopSolution.BackendApi.Controllers
             _languageService = languageService;
         }
 
+        /// <summary>
+        /// Get all available languages
+        /// </summary>
+        /// <returns></returns>
         [HttpGet()]
+        [SwaggerOperation(Summary = "Get all language")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(401, "Unauthorized")]
         public async Task<IActionResult> GetAllLanguages()
         {
             try

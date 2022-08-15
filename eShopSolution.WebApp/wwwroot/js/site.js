@@ -1,4 +1,51 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿var SiteController = function () {
+    this.initialize = function () {
+        registerEvents();
+        loadCart();
+    }
+}
+function loadCart() {
+    const languageId = $('hiddenCulture').val();
+    $.ajax({
+        type: "GET",
+        url: "/" + languageId + '/Cart/GetListItems',
+        success: function (res) {
+            $('#lbl_number_items_header').text(res.length);
+        },
+        error: function (res) {
+            console.log(res)
+        }
+    });
+}
+function registerEvents() {
+    $('body').on('click', '.btn-add-cart', function (e) {
+        e.preventDefault();
 
-// Write your JavaScript code.
+        const languageId = $('#hiddenCulture').val();
+        const id = $(this).data('id');
+
+        //alert(id);
+
+        $.ajax({
+            type: "POST",
+            url: "/" + languageId + '/Cart/AddToCart',
+            data: {
+                languageId: languageId,
+                id: id
+            },
+            success: function (res) {
+                $('#lbl_number_items_header').text(res.length);
+            },
+            error: function (res) {
+                console.log(res)
+            }
+        });
+    });
+}
+
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+

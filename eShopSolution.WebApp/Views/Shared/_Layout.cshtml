@@ -1,6 +1,7 @@
 ﻿@{
     var languageId = CultureInfo.CurrentCulture.Name;
 }
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +36,7 @@
 </head>
 <body>
     <!-- Header End====================================================================== -->
+    <input type="hidden" id="hiddenCulture" value="@languageId" />
     <div id="header">
         <div class="container"> 
             <!-- WelcomeLine Start======================================== -->
@@ -116,9 +118,9 @@
                         <li class=""><a asp-route-culture="@languageId" localize-content>Delivery</a></li>
                         <li class=""><a asp-route-culture="@languageId" localize-content>Contact</a></li>
                         <li class="">  
-                            <a href="#login" role="button" data-toggle="modal" style="padding-right:0">
+                            <a href="/@languageId/cart" role="button" data-toggle="modal" style="padding-right:0">
                                 <span class="btn btn-large btn-primary">
-                                    <i class="icon-shopping-cart icon-white"></i> [ 3 ]
+                                    <i class="icon-shopping-cart icon-white"></i> [ <span id="lbl_number_items_header">0</span> ]
                                 </span>
                             </a>
                             @*<div class="pull-right" style="margin-right:10px">
@@ -194,6 +196,13 @@
 
     <script src="/themes/js/bootshop.js"></script>
     <script src="/themes/js/jquery.lightbox-0.5.js"></script>
+
+    <script src="~/js/site.js"></script>
+    <script>
+        var siteController = new SiteController();
+        siteController.initialize();
+    </script>
+    @RenderSection("scripts", required: false)
 
     <!-- Themes switcher section ============================================================================================= -->
     <div id="secectionBox">

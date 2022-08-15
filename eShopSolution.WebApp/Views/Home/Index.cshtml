@@ -8,6 +8,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+
 @section slider{
     <div id="carouselBlk">
         <div id="myCarousel" class="carousel slide">
@@ -51,7 +52,7 @@
                         featuredPart = new List<ProductViewModel>();
                     }
                 }
-
+                <script src="~/js/site.js"></script>
                 @for(int i = 0; i < featuredProducts.Count; i++)
                 {
                     <div class="item @(i == 0 ? "active" : "")">
@@ -59,6 +60,7 @@
                             @foreach(var item in featuredProducts[i])
                             {
                                 var url = $"/{languageId}/{_local["productUrl"]}/{item.Id}";
+                                @*var price = siteController.numberWithCommas(@item.Price);*@
                                 <li class="span3">
                                     <div class="thumbnail">
                                         <i class="tag"></i>
@@ -67,7 +69,7 @@
                                             <h5>@item.Name</h5>
                                             <h4>
                                                 <a class="btn" href="@url" localize-content>VIEW</a> 
-                                                <span class="pull-right">@item.Price.ToString()</span>
+                                                <span class="pull-right">numberWithCommas(@item.Price)</span>
                                             </h4>
                                         </div>
                                     </div>
@@ -95,7 +97,7 @@
                     <p>@item.Description</p>
                     <h4 style="text-align:center">
                         <a class="btn" href="@url"><i class="icon-zoom-in"></i></a> 
-                        <a class="btn" href="#">
+                        <a class="btn btn-add-cart" data-id="@item.Id" href="#">
                             <localize>Add to </localize>
                             <i class="icon-shopping-cart"></i>
                         </a>

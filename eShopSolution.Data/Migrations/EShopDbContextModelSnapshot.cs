@@ -195,7 +195,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("8d04dce2-969a-435d-bba4-df3f325983dc"),
-                            ConcurrencyStamp = "eaff56a3-2dc7-438a-b0a4-61c5bdcbb4dd",
+                            ConcurrencyStamp = "b9fd6fb4-faa4-4e94-ba87-33bd8c4bf39e",
                             Description = "Administrator role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -203,7 +203,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = new Guid("44ca662a-68e3-410d-85db-72c4e70e2d48"),
-                            ConcurrencyStamp = "0c3fcf4a-c98e-4d00-8026-802c6c99e2f1",
+                            ConcurrencyStamp = "3e688efe-dc51-4d9d-a515-78c0cb3cde9c",
                             Description = "User role",
                             Name = "user",
                             NormalizedName = "user"
@@ -280,7 +280,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("7c6187f4-1973-4ece-aa42-f298219bb27d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e245fbeb-2f15-4f0f-948d-4e140ddd28b7",
+                            ConcurrencyStamp = "5d6da2e4-09a9-4e44-bd25-a76cd73a446b",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -289,7 +289,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "admin1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGStKPaCZzdGq5oxrPVuqLtCY6p+ia6CK2RmkKv6waLJNlJ0f7AU5KnFPmzsTml6og==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJIy5OjcS2R6eLRkxMs4xBx+9+GLeVxIWdZVHx0xGBBbrJxNp+WUSm5Um+MdXHbdig==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -300,7 +300,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("a2dea42f-162e-4ce9-a2d2-f3bfb44af01d"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2b101602-003f-436e-b422-67f539187ad9",
+                            ConcurrencyStamp = "ea486b4f-7031-48c4-b7a5-d7813e9f4a42",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vhtrung52@gmail.com",
                             EmailConfirmed = true,
@@ -309,7 +309,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "vhtrung52@gmail.com",
                             NormalizedUserName = "admin2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBfbrEgwzNDRKhYhKgDC/3tt132Agyx6Z0PjRj3q0QPjSCBzyf3Y5wTH+weX88LUTw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIprcbCmL8R2WSgYXMeTDKCwDVU+AFlnVd4YMfjc/H2YCLtiGmsCoDiJD8rySGe+kQ==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -320,7 +320,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("5f5d0f29-f012-411a-970e-97835c440947"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "163d11b3-2427-48db-ad34-e828b1d9bcff",
+                            ConcurrencyStamp = "42da5d4b-2f16-4159-9e2e-fa9c0ab25a5f",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "tedu.international@gmail.com",
                             EmailConfirmed = true,
@@ -329,7 +329,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "tedu.international@gmail.com",
                             NormalizedUserName = "user1",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBwY36GS3IPVfJphbp4821Ti040iUCbnEV58KfGK+eJSJZbUgN/CB6y91HAO6goBVA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFs10zRANOfRNL6Rt81KtRr7YU5wAR8KV3ftTt+v43SmRNZ4YRy0S9JuTI80HjLU0A==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -340,7 +340,7 @@ namespace eShopSolution.Data.Migrations
                         {
                             Id = new Guid("7c0e9767-4655-4df7-940d-fdc462607d46"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "78a45f1a-2f27-485d-a6ac-8b131df7d346",
+                            ConcurrencyStamp = "48db3b01-e363-4321-a3ee-669176169958",
                             Dob = new DateTime(2020, 1, 31, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "vhtrung52@gmail.com",
                             EmailConfirmed = true,
@@ -349,7 +349,7 @@ namespace eShopSolution.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "vhtrung52@gmail.com",
                             NormalizedUserName = "user2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEE+AXRuuHzocwXRIGEvO9BReWyQ8B7gwg6CjWH7kxEJoIqWTNWzTe0G5jPShKPqkdw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECZeNnu/IOxzllJiihNCnlTgcssCu7bytQQjt18x3WDYvkfkNLMu0FQcX38TRF6FXg==",
                             PhoneNumber = "1234567890",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
@@ -698,7 +698,7 @@ namespace eShopSolution.Data.Migrations
                         new
                         {
                             Id = 1,
-                            DateCreated = new DateTime(2022, 5, 26, 16, 0, 50, 949, DateTimeKind.Local).AddTicks(5142),
+                            DateCreated = new DateTime(2022, 8, 29, 16, 3, 4, 393, DateTimeKind.Local).AddTicks(6783),
                             OriginalPrice = 100000m,
                             Price = 200000m,
                             Stock = 10,
@@ -895,6 +895,26 @@ namespace eShopSolution.Data.Migrations
                         .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Slides");
+                });
+
+            modelBuilder.Entity("eShopSolution.Data.Entities.SlideTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
@@ -905,15 +925,18 @@ namespace eShopSolution.Data.Migrations
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<string>("LanguageId")
+                        .IsRequired()
+                        .HasColumnType("varchar(5)")
+                        .HasMaxLength(5)
+                        .IsUnicode(false);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<int>("SortOrder")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Status")
+                    b.Property<int>("SlideId")
                         .HasColumnType("int");
 
                     b.Property<string>("Url")
@@ -923,69 +946,11 @@ namespace eShopSolution.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Slides");
+                    b.HasIndex("LanguageId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/1.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 1,
-                            Status = 1,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/2.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 2,
-                            Status = 1,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/3.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 3,
-                            Status = 1,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/4.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 4,
-                            Status = 1,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/5.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 5,
-                            Status = 1,
-                            Url = "#"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.",
-                            ImagePath = "/themes/images/carousel/6.png",
-                            Name = "Second Thumbnail label",
-                            SortOrder = 6,
-                            Status = 1,
-                            Url = "#"
-                        });
+                    b.HasIndex("SlideId");
+
+                    b.ToTable("SlideTranslations");
                 });
 
             modelBuilder.Entity("eShopSolution.Data.Entities.Transaction", b =>
@@ -1120,6 +1085,21 @@ namespace eShopSolution.Data.Migrations
                     b.HasOne("eShopSolution.Data.Entities.Product", "Product")
                         .WithMany("ProductTranslations")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("eShopSolution.Data.Entities.SlideTranslation", b =>
+                {
+                    b.HasOne("eShopSolution.Data.Entities.Language", "Language")
+                        .WithMany("SlideTranslations")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("eShopSolution.Data.Entities.Slide", "Slide")
+                        .WithMany("SlideTranslations")
+                        .HasForeignKey("SlideId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

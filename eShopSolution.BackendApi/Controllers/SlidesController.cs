@@ -22,11 +22,11 @@ namespace eShopSolution.BackendApi.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllSlide()
+        public async Task<IActionResult> GetAllSlide(string languageId)
         {
             try
             {
-                var response = await _slideService.GetAllSlide();
+                var response = await _slideService.GetAllSlide(languageId);
                 return Ok(response);
             }
             catch (Exception ex)

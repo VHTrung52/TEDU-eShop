@@ -18,9 +18,9 @@ namespace eShopSolution.ApiIntegration
         {
         }
 
-        public Task<List<SlideViewModel>> GetAllSlide()
+        public Task<List<SlideViewModel>> GetAllSlide(string languageId)
         {
-            return GetAsync<List<SlideViewModel>>($"/api/slides");
+            return GetAsync<List<SlideViewModel>>($"/api/slides?languageId={languageId}");
         }
     }
 }

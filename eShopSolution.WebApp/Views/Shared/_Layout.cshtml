@@ -18,6 +18,27 @@
      -->
     <!--<link rel="stylesheet/less" type="text/css" href="/themes/less/bootshop.less">
     <script src="/themes/js/less.js" type="text/javascript"></script> -->
+    <script>
+        /* When the user clicks on the button,
+        toggle between hiding and showing the dropdown content */
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
     <!-- Bootstrap style -->
     <link id="callCss" rel="stylesheet" href="/themes/bootshop/bootstrap.min.css" media="screen" />
     <link href="/themes/css/base.css" rel="stylesheet" media="screen" />
@@ -32,7 +53,56 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/themes/images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/themes/images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/themes/images/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.4.6/css/flag-icon.min.css" />
     <style type="text/css" id="enject"></style>
+    <style>
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #fff;
+            min-width: 71.9px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+            .dropdown-content a {
+                color: black;
+                text-decoration: none;
+                display: block;
+                padding: 10px 13px;
+            }
+
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+
+        .show {
+            display: block;
+        }
+
+        /*.dropdown-menu dropdown-menu-right {
+            min-width: 181.07px;
+        }*/
+
+        /*.dropdown-menu dropdown-menu{
+            min-width: 181.07px;
+        }*/
+
+        .dropdown-menu{
+            min-width: 181.07px;
+        }
+
+        /*.dropdown-item a{
+            min-width: 181.07px;
+        }*/
+
+    </style>
 </head>
 <body>
     <!-- Header End====================================================================== -->
@@ -45,13 +115,30 @@
                     <div class="pull-right">
                         @if(User.Identity.IsAuthenticated)
                         {
-                            <form action="/@languageId/Accounts/Logout" method="post">
+                            @*<form class="pull-right" action="/@languageId/Accounts/Logout" method="post">
                                 <button type="submit" style="background:transparent; border:none">
-                                    <span class="btn btn-success">
+                                    <span class="btn btn-dark">
                                         <localize>Logout</localize>
                                     </span>
                                 </button>    
                             </form>
+                            <form class="pull-right" action="#">
+                                <button type="submit" style="background:transparent; border:none">
+                                    <span class="btn btn-primary">
+                                        <localize>@User.Identity.Name</localize>
+                                    </span>
+                                </button>    
+                            </form>*@
+                            <div class="dropdown">
+                                <button onclick="myFunction()" class="dropbtn btn btn-primary">@User.Identity.Name</button>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <a href="#">Account</a>
+                                    <a href="/@languageId/Accounts/Logout" onclick="event.preventDefault();document.getElementById('magic-form').submit();">Logout</a>
+                                    <form id="magic-form" action="/@languageId/Accounts/Logout" method="POST" style="display: none;"></form>
+                                </div>
+                            </div>
+
+                            
                             @*<a href="/@languageId/Accounts/Logout" style="padding-right:0">
                                 <span class="btn btn-success">
                                     <localize>Logout</localize>
@@ -59,21 +146,21 @@
                             </a>*@
                         }
                         else
-                        {
-                            <form class="pull-right" action="/@languageId/Accounts/Register">
-                                <button type="submit" style="background:transparent; border:none">
-                                    <span class="btn btn-primary">
-                                        <localize>Sign Up</localize>
-                                    </span>
-                                </button>    
-                            </form>
+                        {                        
                             <form class="pull-right" action="/@languageId/Accounts/Login">
                                 <button type="submit" style="background:transparent; border:none">
-                                    <span class="btn btn-success">
+                                    <span class="btn btn-primary " font-size: 20px;>
                                         <localize>Login</localize>
                                     </span>
                                 </button>    
-                            </form>                          
+                            </form>
+                            <form class="pull-right" action="/@languageId/Accounts/Register">
+                                <button type="submit" style="background:transparent; border:none">
+                                    <span class="btn btn-success" font-size: 20px;>
+                                        <localize>Sign Up</localize>
+                                    </span>
+                                </button>
+                            </form>
                             @*<a href="/@languageId/Accounts/Login" style="padding-right:0">
                                 <span class="btn btn-success">
                                     <localize>Login</localize>
@@ -81,19 +168,19 @@
                             </a>*@
                         }  
                     </div> 
-                    <div class="pull-right" style="padding-right:10px">
-                        <language-nav class="dropdown btn" cookie-handler-url="@Url.Action("SetCultureCookie", "Home", new { area="", cltr="{0}", returnUrl="{1}"})"></language-nav>
+                    <div class="pull-right" style="padding-right:10px;">
+                        <language-nav flags="true" language-label="NativeName" class="dropdown btn" cookie-handler-url="@Url.Action("SetCultureCookie", "Home", new { area="", cltr="{0}", returnUrl="{1}", currentUrl=@Context.Request.Path })"></language-nav>
                     </div>
-                    <div class="pull-right" style="padding: 4px 12px; color:white">
+                    @*<div class="pull-right" style="padding: 4px 12px; color:white">
                         @if (User.Identity.IsAuthenticated)
                         {
                             <strong>Welcome @User.Identity.Name</strong>
                         }
                         else
                         {
-                            <strong>Welcome Guest</strong>
+                            <strong>Welcome </strong>
                         }
-                    </div>
+                    </div>*@
                 </div>
             </div>
             <!-- WelcomeLine End========================================== -->
@@ -101,8 +188,8 @@
             <div id="logoArea" class="navbar" style="margin-bottom:0;">
                 <div class="navbar-inner">
                     <a class="brand" href="/"><img src="/themes/images/logo.png" alt="Bootsshop" /></a>
-                    <form class="form-inline navbar-search" method="post" action="products.html">
-                        <input id="srchFld" class="srchTxt" type="text" />
+                    <form class="form-inline navbar-search" method="get" asp-controller="Products" asp-action="Index" >
+                        <input id="srchFld" class="srchTxt" type="text" name="srchTxt"/>
                         <select class="srchTxt">
                             <option>All</option>
                             <option>CLOTHES </option>

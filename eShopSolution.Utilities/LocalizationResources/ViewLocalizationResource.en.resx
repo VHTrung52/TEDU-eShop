@@ -205,7 +205,7 @@
     <value>Test</value>
   </data>
   <data name="Vietnamese" xml:space="preserve">
-    <value>Vietnamese</value>
+    <value>Tiếng Việt</value>
     <comment>Views/Shared/_layout.cshtml</comment>
   </data>
   <data name="VIEW" xml:space="preserve">

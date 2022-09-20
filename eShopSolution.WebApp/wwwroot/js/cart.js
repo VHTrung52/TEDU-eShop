@@ -84,7 +84,8 @@ var CartController = function () {
                     + "<button class=\"btn btn-danger btn-remove\" type=\"button\" data-id=\"" + item.productId + "\"> <i class=\"icon-remove icon-white\"></i></button>"
                         + "</div >"
                         + "</td>"
-                        + "<td>" + numberWithCommas(item.price) + "</td>"
+                    + "<td>" + numberWithCommas(item.price) + "</td>"
+                    + "<td>" + numberWithCommas(0) + "</td>"
                         + "<td>" + numberWithCommas(itemTotal) + "</td>"
                         + "</tr>";
                     total += itemTotal;

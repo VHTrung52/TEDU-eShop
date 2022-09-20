@@ -1,0 +1,21 @@
+﻿<div id="carouselBlk">
+    <div id="myCarousel" class="carousel slide">
+        <div class="carousel-inner">              
+            @for(int i = 0; i < @Model.Slides.Count; i++)
+            {
+                var slide = Model.Slides[i];
+                    <div class="item @(i == 0 ? "active" : "")">
+                        <div class="container">
+                            <a href="@slide.Url"><img style="width:100%" src="@slide.ImagePath" alt="special offers" /></a>
+                            <div class="carousel-caption">
+                                <h4>@slide.Name</h4>
+                                <p>@slide.Description</p>
+                            </div>
+                        </div>
+                    </div>
+            }
+        </div>
+        <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+</div>

@@ -4,6 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    var languageId = CultureInfo.CurrentCulture.Name;
+}
+
 @section scripts {
 	<script src="~/js/cart.js"></script>
 	<script>
@@ -19,7 +23,6 @@
 
 <h3>
 	SHOPPING CART [ <small><span id="lbl_number_of_items">0</span> Item(s) </small>]
-	<a href="products.html" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a>
 </h3>	
 
 <hr class="soft" />		
@@ -31,6 +34,7 @@
 			<th>Description</th>
 			<th>Quantity/Update</th>
 			<th>Price</th>
+			<th>Discount</th>
 			<th>Total</th>
 		</tr>
     </thead>
@@ -65,11 +69,11 @@
 	</tbody>
 	<tfoot>
 		<tr>
-			<td colspan="4" style="text-align:right">Total Price:	</td>
+			<td colspan="5" style="text-align:right">Total Price:	</td>
 			<td> $228.00</td>
 		</tr>
 		<tr>
-			<td colspan="4" style="text-align:right"><strong>TOTAL ($228 - $50 + $31) =</strong></td>
+			<td colspan="5" style="text-align:right"><strong>TOTAL ($228 - $50 + $31) =</strong></td>
 			<td class="label label-important" style="display:block"> <strong> <span id="lbl_total"></span></strong></td>
 		</tr>
 	</tfoot>
@@ -119,8 +123,8 @@
 		</td>
 	</tr>
 </table>*@		
-<a href="products.html" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
-<a href="login.html" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
+<a href="/" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+<a href="/@languageId/Cart/Checkout" class="btn btn-large pull-right">Next <i class="icon-arrow-right"></i></a>
 	
 
 

@@ -7,6 +7,6 @@ namespace eShopSolution.ApiIntegration
 {
     public interface ISlideApiClient
     {
-        Task<List<SlideViewModel>> GetAllSlide();
+        Task<List<SlideViewModel>> GetAllSlide(string languageId);
     }
 }

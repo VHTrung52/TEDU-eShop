@@ -30,11 +30,11 @@ namespace eShopSolution.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            string s = _localizer.GetLocalizedString("Test");
+            ViewBag.ShowVC = true;
             var languageId = CultureInfo.CurrentCulture.Name;
             var model = new HomeViewModel()
             {
-                Slides = await _slideApiClient.GetAllSlide(),
+                Slides = await _slideApiClient.GetAllSlide(languageId),
                 FeaturedProducts = await _productApiClient.GetFeaturedProducts(languageId, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
                 LastestProducts = await _productApiClient.GetLatestProducts(languageId, SystemConstants.ProductSettings.NumberOfLatestProducts)
 
@@ -43,18 +43,7 @@ namespace eShopSolution.WebApp.Controllers
             return View(model);
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        public IActionResult SetCultureCookie(string cltr, string returnUrl)
+        public IActionResult SetCultureCookie(string cltr, string returnUrl, string currentUrl)
         {
             //culture = languageId
             Response.Cookies.Append(
@@ -62,6 +51,12 @@ namespace eShopSolution.WebApp.Controllers
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cltr)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
                 );
+            //var test = Request;
+
+            if (currentUrl.Contains("/en/"))
+                returnUrl = currentUrl.Replace("/en/", "/vi/");
+            else if(currentUrl.Contains("/vi/"))
+                returnUrl = currentUrl.Replace("/vi/", "/en/");
 
             return LocalRedirect(returnUrl);
         }

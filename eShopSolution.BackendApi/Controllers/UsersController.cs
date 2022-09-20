@@ -29,8 +29,8 @@ namespace eShopSolution.BackendApi.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                //if (!ModelState.IsValid)
+                //    return BadRequest(ModelState);
 
                 var response = await _userService.Authenticate(request);
                 return Ok(response);
@@ -49,8 +49,8 @@ namespace eShopSolution.BackendApi.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                //if (!ModelState.IsValid)
+                //    return BadRequest(ModelState);
 
                 var response = await _userService.Register(request);
                 return Ok(response);
@@ -68,8 +68,8 @@ namespace eShopSolution.BackendApi.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                //if (!ModelState.IsValid)
+                //    return BadRequest(ModelState);
 
                 var response = await _userService.UpdateUser(id, request);
                 return Ok(response);
@@ -86,8 +86,8 @@ namespace eShopSolution.BackendApi.Controllers
         {
             try
             {
-                if (!ModelState.IsValid)
-                    return BadRequest(ModelState);
+                //if (!ModelState.IsValid)
+                //    return BadRequest(ModelState);
 
                 var response = await _userService.RoleAssign(id, request);
                 return Ok(response);

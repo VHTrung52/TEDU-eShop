@@ -1,0 +1,109 @@
+﻿@model CheckOutViewModel
+@{
+    ViewData["Title"] = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var languageId = CultureInfo.CurrentCulture.Name;
+}
+
+<div class="span9">
+    <ul class="breadcrumb">
+		<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+		<li class="active"> SHOPPING CART</li>
+    </ul>
+	<h3>  SHOPPING CART [ <small>@Model.CartItems.Count Item(s) </small>]<a href="products.html" class="btn btn-large pull-right"><i class="icon-arrow-left"></i> Continue Shopping </a></h3>	
+	<hr class="soft"/>		
+	@if(TempData["SuccessMsg"] != null)
+	{
+		<span class="alert alert-success">@TempData["SuccessMsg"]</span>
+	}
+	else
+	{
+		<table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Description</th>
+                  <th>Quantity</th>
+				  <th>Price</th>
+                  <th>Discount</th>
+                  <th>Total</th>
+				</tr>
+              </thead>
+              <tbody>
+				  @foreach(var item in Model.CartItems)
+				  {
+					  <tr>
+                  <td> <img width="60" src="@item.ImagePath" alt=""/></td>
+                  <td>@item.Description</td>
+				  <td>
+					@item.Quantity
+				  </td>
+                  <td>@item.Price</td>
+				  <td>0</td>
+                  <td>@(item.Quantity * item.Price)</td>
+
+                </tr>
+				  }
+				
+                <tr>
+                  <td colspan="5" style="text-align:right">Total Price:	</td>
+                  <td> @Model.CartItems.Sum(x => x.Quantity * x.Price).ToString("N0")</td>
+                </tr>
+				 <tr>
+                  <td colspan="5" style="text-align:right">Total Discount:	</td>
+                  <td> $50.00</td>
+                </tr>
+				 <tr>
+                  <td colspan="5" style="text-align:right"><strong>TOTAL ($228 - $50 + $31) =</strong></td>
+                  <td class="label label-important" style="display:block"> <strong> @Model.CartItems.Sum(x => x.Quantity * x.Price).ToString("N0")</strong></td>
+                </tr>
+				</tbody>
+            </table>
+		
+			
+			<table class="table table-bordered">
+			 <tr><th>ESTIMATE YOUR SHIPPING </th></tr>
+			 <tr> 
+			 <td>
+				<form class="form-horizontal" action="/@languageId/Cart/Checkout" method="post">
+				  <div class="control-group">
+					<label class="control-label" for="inputCountry">Name </label>
+					<div class="controls">
+					  <input type="text" id="inputCountry" placeholder="Name" asp-for="CheckOutModel.Name">
+					</div>
+				  </div>
+				  <div class="control-group">
+					<label class="control-label" for="inputPost">Address </label>
+					<div class="controls">
+					  <input type="text" id="inputPost" placeholder="Postcode" asp-for="CheckOutModel.Address">
+					</div>
+				  </div>
+				  <div class="control-group">
+					<label class="control-label" for="inputPost">Email </label>
+					<div class="controls">
+					  <input type="text" id="inputPost" placeholder="Postcode" asp-for="CheckOutModel.Email">
+					</div>
+				  </div>
+				  <div class="control-group">
+					<label class="control-label" for="inputPost">Phone number </label>
+					<div class="controls">
+					  <input type="text" id="inputPost" placeholder="Postcode" asp-for="CheckOutModel.PhoneNumber">
+					</div>
+				  </div>
+				  <div class="control-group">
+					<div class="controls">
+					  <button type="submit" class="btn">Purchase </button>
+					</div>
+				  </div>
+				</form>				  
+			  </td>
+			  </tr>
+            </table>	
+			<a href="/" class="btn btn-large"><i class="icon-arrow-left"></i> Continue Shopping </a>
+
+	}
+	
+

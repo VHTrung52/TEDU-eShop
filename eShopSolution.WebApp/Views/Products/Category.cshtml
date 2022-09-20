@@ -8,7 +8,7 @@
 @inject LazZiya.ExpressLocalization.ISharedCultureLocalizer _local;
 
 <ul class="breadcrumb">
-	<li><a href="index.html">Home</a> <span class="divider">/</span></li>
+	<li><a href="/">Home</a> <span class="divider">/</span></li>
 	<li class="active">Products Name</li>
 </ul>
 <h3> @Model.Category.Name <small class="pull-right"> 40 <localize>available products</localize> </small></h3>	
@@ -39,6 +39,7 @@
 		@for (int i = 0; i < Model.Products.Items.Count; i++)
 		{
 			var item = Model.Products.Items[i];
+			var price = @item.Price.ToString(Decimal.Truncate(@item.Price) == @item.Price ? "C0" : "C");
 			<div class="row">	  
 				<div class="span2">
 					<img src="@item.ThumbnailImagePath" alt="@item.Name"/>
@@ -53,7 +54,7 @@
 				</div>
 				<div class="span3 alignR">
 				<form class="form-horizontal qtyFrm">
-					<h3> $140.00</h3>
+					<h3> @price</h3>
 					<label class="checkbox">
 						<input type="checkbox">  Adds product to compair
 					</label>
@@ -72,6 +73,7 @@
 			@for (int i = 0; i < Model.Products.Items.Count; i++)
 			{
 				var item = Model.Products.Items[i];
+				var price = @item.Price.ToString(Decimal.Truncate(@item.Price) == @item.Price ? "C0" : "C");
 				<li class="span3">
 					<div class="thumbnail">
 						<a href="/@languageId/@_local["productUrl"]/@item.Id"><img src="@item.ThumbnailImagePath" alt="@item.Name"/></a>
@@ -82,8 +84,8 @@
 							</p>
 							<h4 style="text-align:center">
 								<a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> 
-								<a class="btn" href="#"><localize>Add to</localize><i class="icon-shopping-cart"></i></a> 
-								<a class="btn btn-primary" href="#">@item.Price.ToString("C", languageId)</a>
+								<a class="btn btn-primary" href="#"><localize>Add to</localize><i class="icon-shopping-cart"></i></a> 
+								<a class="btn" href="#">@price</a>
 							</h4>
 						</div>
 					</div>

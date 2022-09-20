@@ -1,5 +1,6 @@
 ﻿using eShopSolution.ApiIntegration;
 using eShopSolution.Utilities.Constants;
+using eShopSolution.ViewModels.Sales;
 using eShopSolution.WebApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +14,11 @@ namespace eShopSolution.WebApp.Controllers
     public class CartController : Controller
     {
         private readonly IProductApiClient _productApiClient;
-        public CartController(IProductApiClient productApiClient)
+        private readonly IOrderApiClient _orderApiClient;
+        public CartController(IProductApiClient productApiClient, IOrderApiClient orderApiClient)
         {
             _productApiClient = productApiClient;
+            _orderApiClient = orderApiClient;
         }
         public IActionResult Index()
         {
@@ -76,6 +79,52 @@ namespace eShopSolution.WebApp.Controllers
 
             HttpContext.Session.SetString(SystemConstants.CartSession, JsonConvert.SerializeObject(currentCart));
             return Ok(currentCart);
+        }
+
+        public IActionResult CheckOut()
+        {
+            return View(GetCheckOutViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult CheckOut(CheckOutViewModel request)
+        {
+            var model = GetCheckOutViewModel();
+            var orderDetails = new List<OrderDetailViewModel>();
+            foreach (var item in model.CartItems)
+            {
+                orderDetails.Add(new OrderDetailViewModel()
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                });
+            }
+
+            var checkoutRequest = new CheckoutRequest()
+            {
+                Address = request.CheckOutModel.Address,
+                Name = request.CheckOutModel.Name,
+                Email = request.CheckOutModel.Email,
+                PhoneNumber = request.CheckOutModel.PhoneNumber,
+                OrderDetails = orderDetails,
+            };
+
+            //đẩy vào order api
+            _orderApiClient.CreateOrder(checkoutRequest);
+            TempData["SuccessMsg"] = "Order puschased successful";
+            return View(model);
+        }
+
+        private CheckOutViewModel GetCheckOutViewModel()
+        {
+            var session = HttpContext.Session.GetString(SystemConstants.CartSession);
+            List<CartItemViewModel> currentCart = session == null ? new List<CartItemViewModel>() : JsonConvert.DeserializeObject<List<CartItemViewModel>>(session);
+            var checkoutViewModel = new CheckOutViewModel()
+            {
+                CartItems = currentCart,
+                CheckOutModel = new CheckoutRequest()
+            };
+            return checkoutViewModel;
         }
     }
 }

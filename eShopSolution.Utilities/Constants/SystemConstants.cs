@@ -10,6 +10,9 @@
             public const string DefaultLanguageId = "DefaultLanguageId";
             public const string Token = "Token";
             public const string BaseAddress = "BaseAddress";
+            public const string UserContentFolder = "UserContentFolder";
+            public const string ProductImage = "ProductImage";
+            public const string CarouselImage = "CarouselImage";
         }
 
         public class ProductSettings
@@ -21,6 +24,17 @@
         public class ProductConstants
         {
             public const string NA = "N/A";
+        }
+
+        public class ExchangeRateVndToUsd
+        {
+            public const decimal Rate = 4.347826086956522e-5M;
+        }
+
+        public class LanguageId
+        {
+            public const string Vi = "vi";
+            public const string En = "en";
         }
     }
 }

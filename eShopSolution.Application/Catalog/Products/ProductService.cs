@@ -22,14 +22,17 @@ namespace eShopSolution.Application.Catalog.Products
     public class ProductService : BaseService, IProductService
     {
         private readonly IStorageService _storageService;
+        private readonly ICurrencyConvert _currencyConvert;
 
         public ProductService(
             ILogger<ProductService> lgr,
             EShopDbContext context,
-            IStorageService storageService)
+            IStorageService storageService,
+            ICurrencyConvert currencyConvert)
             : base(lgr, context)
         {
             _storageService = storageService;
+            _currencyConvert = currencyConvert;
         }
 
         public async Task<int> AddProductImage(int productId, ProductImageCreateRequest request)
@@ -44,7 +47,7 @@ namespace eShopSolution.Application.Catalog.Products
             };
             if (request.ImageFile != null)
             {
-                productImage.ImagePath = await this.SaveFile(request.ImageFile);
+                productImage.ImagePath = await this.SaveProductImage(request.ImageFile);
                 productImage.FileSize = request.ImageFile.Length;
             }
             DbContext.ProductImages.Add(productImage);
@@ -112,7 +115,7 @@ namespace eShopSolution.Application.Catalog.Products
                             Caption = "Thumbnail image",
                             DateCreated = DateTime.Now,
                             FileSize = request.ThumbnailImage.Length,
-                            ImagePath = await this.SaveFile(request.ThumbnailImage),
+                            ImagePath = await this.SaveProductImage(request.ThumbnailImage),
                             IsDefault = true,
                             SortOrder = 1
                         }
@@ -151,18 +154,18 @@ namespace eShopSolution.Application.Catalog.Products
                 join productInCategory in DbContext.ProductInCategories
                     on product.Id equals productInCategory.ProductId into productProductInCategory
                 from productInCategory in productProductInCategory.DefaultIfEmpty()
-                //join productImage in DbContext.ProductImages
-                //    on product.Id equals productImage.ProductId into productProductImage
-                //from productImage in productProductImage.DefaultIfEmpty()
+                join productImage in DbContext.ProductImages
+                    on product.Id equals productImage.ProductId into productProductImage
+                from productImage in productProductImage.DefaultIfEmpty()
                 where
                     (productTranslation.LanguageId == request.LanguageId)
-                    //&& productImage.IsDefault == true
+                    && productImage.IsDefault == true
                     && (!string.IsNullOrEmpty(request.Keyword) ? productTranslation.Name.Contains(request.Keyword) : true)
                     && ((request.CategoryId != null && request.CategoryId != 0) ? productInCategory.CategoryId == request.CategoryId : true)
                 select new {
                     product,
                     productTranslation,
-                    //productImage
+                    productImage
                 })
                 .Distinct()
                 .OrderBy(x => x.product).ThenBy(y => y.productTranslation);
@@ -181,13 +184,13 @@ namespace eShopSolution.Application.Catalog.Products
                     Description = x.productTranslation.Description,
                     Details = x.productTranslation.Details,
                     OriginalPrice = x.product.OriginalPrice,
-                    Price = x.product.Price, 
+                    Price = request.LanguageId == SystemConstants.LanguageId.En ? _currencyConvert.ConvertVndToUsd(x.product.Price) : x.product.Price, 
                     SeoAlias = x.productTranslation.SeoAlias,
                     SeoDescription = x.productTranslation.SeoDescription,
                     SeoTitle = x.productTranslation.SeoTitle,
                     Stock = x.product.Stock,
                     ViewCount = x.product.ViewCount,
-                    //ThumbnailImagePath = x.productImage.ImagePath
+                    ThumbnailImagePath = x.productImage != null ? _storageService.GetProductImageFileUrl(x.productImage.ImagePath) : "no-image",
                 })
                 //.Where(y => Categories == request.CategoryId)
                 .ToListAsync();
@@ -268,13 +271,13 @@ namespace eShopSolution.Application.Catalog.Products
                 Details = productTranslation != null ? productTranslation.Details : null,
                 Name = productTranslation != null ? productTranslation.Name : null,
                 OriginalPrice = product.OriginalPrice,
-                Price = product.Price,
+                Price = languageId == SystemConstants.LanguageId.En ? _currencyConvert.ConvertVndToUsd(product.Price) : product.Price,
                 SeoAlias = productTranslation != null ? productTranslation.SeoAlias : null,
                 SeoDescription = productTranslation != null ? productTranslation.SeoDescription : null,
                 SeoTitle = productTranslation != null ? productTranslation.SeoTitle : null,
                 Stock = product.Stock,
                 ViewCount = product.ViewCount,
-                ThumbnailImagePath = productImage != null ? _storageService.GetFileUrl(productImage.ImagePath) : "no-image",
+                ThumbnailImagePath = productImage != null ? _storageService.GetProductImageFileUrl(productImage.ImagePath) : "no-image",
                 Categories = categories
             };
 
@@ -350,7 +353,7 @@ namespace eShopSolution.Application.Catalog.Products
                 if (thumbnailImage != null)
                 {
                     thumbnailImage.FileSize = request.ThumbnailImage.Length;
-                    thumbnailImage.ImagePath = await this.SaveFile(request.ThumbnailImage);
+                    thumbnailImage.ImagePath = await this.SaveProductImage(request.ThumbnailImage);
                     DbContext.ProductImages.Update(thumbnailImage);
                 }
                 else
@@ -362,7 +365,7 @@ namespace eShopSolution.Application.Catalog.Products
                             Caption = "Thumbnail image",
                             DateCreated = DateTime.Now,
                             FileSize = request.ThumbnailImage.Length,
-                            ImagePath = await this.SaveFile(request.ThumbnailImage),
+                            ImagePath = await this.SaveProductImage(request.ThumbnailImage),
                             IsDefault = true,
                             SortOrder = 1
                         }
@@ -380,7 +383,7 @@ namespace eShopSolution.Application.Catalog.Products
 
             if (request.ImageFile != null)
             {
-                productImage.ImagePath = await this.SaveFile(request.ImageFile);
+                productImage.ImagePath = await this.SaveProductImage(request.ImageFile);
                 productImage.FileSize = request.ImageFile.Length;
             }
 
@@ -408,11 +411,11 @@ namespace eShopSolution.Application.Catalog.Products
             return await DbContext.SaveChangesAsync() > 0;
         }
 
-        private async Task<string> SaveFile(IFormFile file)
+        private async Task<string> SaveProductImage(IFormFile productImage)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var originalFileName = ContentDispositionHeaderValue.Parse(productImage.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            await _storageService.SaveProductImageAsync(productImage.OpenReadStream(), fileName);
             return fileName;
         }
 
@@ -455,7 +458,7 @@ namespace eShopSolution.Application.Catalog.Products
                     Description = x.productTranslations.Description,
                     Details = x.productTranslations.Details,
                     OriginalPrice = x.products.OriginalPrice,
-                    Price = x.products.Price,
+                    Price = languageId == SystemConstants.LanguageId.En ? _currencyConvert.ConvertVndToUsd(x.products.Price) : x.products.Price,
                     SeoAlias = x.productTranslations.SeoAlias,
                     SeoDescription = x.productTranslations.SeoDescription,
                     SeoTitle = x.productTranslations.SeoTitle,
@@ -538,13 +541,13 @@ namespace eShopSolution.Application.Catalog.Products
                     Description = x.productTranslations.Description,
                     Details = x.productTranslations.Details,
                     OriginalPrice = x.products.OriginalPrice,
-                    Price = x.products.Price,
+                    Price = languageId == SystemConstants.LanguageId.En ? _currencyConvert.ConvertVndToUsd(x.products.Price) : x.products.Price,
                     SeoAlias = x.productTranslations.SeoAlias,
                     SeoDescription = x.productTranslations.SeoDescription,
                     SeoTitle = x.productTranslations.SeoTitle,
                     Stock = x.products.Stock,
                     ViewCount = x.products.ViewCount,
-                    ThumbnailImagePath = _storageService.GetFileUrl(x.productImages.ImagePath)
+                    ThumbnailImagePath = _storageService.GetProductImageFileUrl(x.productImages.ImagePath)
                 }
             ).ToListAsync();
 
@@ -581,13 +584,13 @@ namespace eShopSolution.Application.Catalog.Products
                     Description = x.productTranslations.Description,
                     Details = x.productTranslations.Details,
                     OriginalPrice = x.products.OriginalPrice,
-                    Price = x.products.Price,
+                    Price = languageId == SystemConstants.LanguageId.En ? _currencyConvert.ConvertVndToUsd(x.products.Price) : x.products.Price,
                     SeoAlias = x.productTranslations.SeoAlias,
                     SeoDescription = x.productTranslations.SeoDescription,
                     SeoTitle = x.productTranslations.SeoTitle,
                     Stock = x.products.Stock,
                     ViewCount = x.products.ViewCount,
-                    ThumbnailImagePath = _storageService.GetFileUrl(x.productImages.ImagePath)
+                    ThumbnailImagePath = _storageService.GetProductImageFileUrl(x.productImages.ImagePath)
             }
             ).ToListAsync();
 

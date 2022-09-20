@@ -8,6 +8,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
+          
 
 @section slider{
     <div id="carouselBlk">
@@ -33,7 +34,7 @@
     </div>
 }
 <div class="well well-small">
-    <h4><localize>Featured Products</localize><small class="pull-right">200+ featured products</small></h4>
+    <h4><localize>Featured Products</localize>@*<small class="pull-right">200+ featured products</small></h4>*@
     <div class="row-fluid">
         <div id="featured" class="carousel slide">
             <div class="carousel-inner">
@@ -52,24 +53,26 @@
                         featuredPart = new List<ProductViewModel>();
                     }
                 }
-                <script src="~/js/site.js"></script>
                 @for(int i = 0; i < featuredProducts.Count; i++)
                 {
-                    <div class="item @(i == 0 ? "active" : "")">
+                    <div class="item @(i == 0 ? "active" : "")" >
                         <ul class="thumbnails">
                             @foreach(var item in featuredProducts[i])
                             {
                                 var url = $"/{languageId}/{_local["productUrl"]}/{item.Id}";
-                                @*var price = siteController.numberWithCommas(@item.Price);*@
+                                var price = @item.Price.ToString(Decimal.Truncate(@item.Price) == @item.Price ? "C0" : "C");
                                 <li class="span3">
-                                    <div class="thumbnail">
+                                    <div class="thumbnail" style="height:325px">
                                         <i class="tag"></i>
                                         <a href="@url"><img src="@item.ThumbnailImagePath" alt="@item.Name"></a>
                                         <div class="caption">
                                             <h5>@item.Name</h5>
                                             <h4>
-                                                <a class="btn" href="@url" localize-content>VIEW</a> 
-                                                <span class="pull-right">numberWithCommas(@item.Price)</span>
+                                                <a class="btn" style="position:absolute;bottom:60px;right:55px" href="@url">@price</a>
+                                                <a class="btn btn-primary btn-add-cart" style="position:absolute;bottom:20px;right:40px" data-id="@item.Id" href="#">
+                                                    <localize>Add to </localize>
+                                                    <i class="icon-shopping-cart"></i>
+                                                </a>                             
                                             </h4>
                                         </div>
                                     </div>
@@ -89,19 +92,20 @@
     @foreach(var item in Model.LastestProducts)
     {
         var url = $"/{languageId}/{_local["productUrl"]}/{item.Id}";
+        var price = @item.Price.ToString(Decimal.Truncate(@item.Price) == @item.Price ? "C0" : "C");
         <li class="span3">
-            <div class="thumbnail">
+            <div class="thumbnail" style="height:370px">
                 <a href="@url"><img src="@item.ThumbnailImagePath" alt="@item.Name" /></a>
                 <div class="caption">
                     <h5>@item.Name</h5>
                     <p>@item.Description</p>
                     <h4 style="text-align:center">
-                        <a class="btn" href="@url"><i class="icon-zoom-in"></i></a> 
-                        <a class="btn btn-add-cart" data-id="@item.Id" href="#">
+                        @*<a class="btn" href="@url"><i class="icon-zoom-in"></i></a> *@
+                        <a class="btn btn-primary btn-add-cart" style="position:absolute;left:15px;bottom:20px" data-id="@item.Id" href="#">
                             <localize>Add to </localize>
                             <i class="icon-shopping-cart"></i>
                         </a>
-                        <a class="btn btn-primary" href="#">@item.Price</a>
+                        <a class="btn pull-right" style="position:absolute;right:15px;bottom:20px" href="@url">@price</a>
                     </h4>
                 </div>
             </div>

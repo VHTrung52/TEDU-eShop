@@ -5,9 +5,11 @@ namespace eShopSolution.Application.Common
 {
     public interface IStorageService
     {
-        string GetFileUrl(string fileName);
+        string GetProductImageFileUrl(string imageFileName);
 
-        Task SaveFileAsync(Stream mediaBinaryStream, string fileName);
+        string GetCarouselImageFileUrl(string imageFileName);
+
+        Task SaveProductImageAsync(Stream mediaBinaryStream, string fileName);
 
         Task DeleteFileAsync(string fileName);
     }

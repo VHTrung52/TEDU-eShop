@@ -6,6 +6,6 @@ namespace eShopSolution.Application.Utilities.Slides
 {
     public interface ISlideService
     {
-        Task<List<SlideViewModel>> GetAllSlide();
+        Task<List<SlideViewModel>> GetAllSlide(string languageId);
     }
 }

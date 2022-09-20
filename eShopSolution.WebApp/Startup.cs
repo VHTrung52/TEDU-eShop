@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Globalization;
+using System.Reflection;
 
 namespace eShopSolution.WebApp
 {
@@ -40,12 +41,12 @@ namespace eShopSolution.WebApp
             //culture = languageId
             var cultures = new[]
             {
-                new CultureInfo("vi"),
-                new CultureInfo("en"),
+                new CultureInfo("vi-VN"),
+                new CultureInfo("en-US"),
             };
 
             services.AddControllersWithViews()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
+                .AddFluentValidation(option => option.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>())
                 .AddExpressLocalization<ExpressLocalizationResource, ViewLocalizationResource>(ops =>
                 {
                     // When using all the culture providers, the localization process will
@@ -72,7 +73,7 @@ namespace eShopSolution.WebApp
                     {
                         o.SupportedCultures = cultures;
                         o.SupportedUICultures = cultures;
-                        o.DefaultRequestCulture = new RequestCulture("vi");
+                        o.DefaultRequestCulture = new RequestCulture("vi-VN");
                     };
                 });
 
@@ -93,6 +94,8 @@ namespace eShopSolution.WebApp
             services.AddTransient<IProductApiClient, ProductApiClient>();
             services.AddTransient<ICategoryApiClient, CategoryApiClient>();
             services.AddTransient<IUserApiClient, UserApiClient>();
+            services.AddTransient<IOrderApiClient, OrderApiClient>();
+
 
         }
 

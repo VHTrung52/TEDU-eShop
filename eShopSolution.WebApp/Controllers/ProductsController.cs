@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eShopSolution.WebApp.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
         private readonly IProductApiClient _productApiClient;
         private readonly ICategoryApiClient _categoryApiClient;
@@ -43,6 +43,13 @@ namespace eShopSolution.WebApp.Controllers
             model.Products = response.ResultObj;
             model.Category = await _categoryApiClient.GetCategoryById(id, languageId);
             return View(model);
+        }
+
+        
+        public async Task<IActionResult> Index(string srchTxt, string languageId, int pageIndex = 1, int pageSize = 9)
+        {
+            var test = GetLanguageId();
+            return View();
         }
     }
 }
